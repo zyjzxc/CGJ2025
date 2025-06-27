@@ -14,6 +14,8 @@ public class PlayerHealth : MonoBehaviour
     
     public Slider HealthSlider;
 
+    public float InvincibleTime;
+
     private void Awake()
     {
         PlayerHealthInstance = this;
@@ -34,16 +36,30 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Health <= 0)
+        if (GameContext.GameOver)
         {
             Health = 0;
             Debug.Log("Game Over!!");
         }
+        if(InvincibleTime >= 0)
+            InvincibleTime -= Time.deltaTime;
         HealthSlider.value = Health / MaxHealth;
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage, GameObject src = null)
     {
+        if (InvincibleTime > 0)
+        {
+            Debug.Log($"{gameObject.name} invincible {InvincibleTime}");
+            return false;
+        }
+            
         Health -= damage;
+        if (src == null)
+        {
+            //TODO: do dome Invincible vfx
+            InvincibleTime = 1.0f;
+        }
+        return true;
     }
 }

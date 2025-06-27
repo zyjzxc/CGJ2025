@@ -50,7 +50,7 @@ public class Map : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrSpatterAreaSize >= MapSize * 0.95)
+        if (GameContext.GameWin)
         {
             Debug.Log("Win!!");
         }

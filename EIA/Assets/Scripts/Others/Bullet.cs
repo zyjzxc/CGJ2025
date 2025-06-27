@@ -175,8 +175,8 @@ public class Bullet : MonoBehaviour
     public void DoDamage(GameObject player)
     {
         Debug.Log($"{player.name} {gameObject.name} damage");
-        PlayerHealth.PlayerHealthInstance.TakeDamage(Damage);
-        Disappear();
+        if(PlayerHealth.PlayerHealthInstance.TakeDamage(Damage))
+            Disappear();
     }
 
     public void Disappear()

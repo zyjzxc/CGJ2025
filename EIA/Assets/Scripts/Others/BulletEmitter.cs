@@ -38,7 +38,7 @@ public class BulletEmitter : MonoBehaviour
 
             var bullet = RandomBullet();
 
-            var bulletGO = Instantiate(bullet);
+            var bulletGO = Instantiate(bullet, transform, true);
             bulletGO.transform.position = RandomBulletStartPos();
             bulletGO.Direction = RandomBulletStartDir(bulletGO.transform.position);
         }
