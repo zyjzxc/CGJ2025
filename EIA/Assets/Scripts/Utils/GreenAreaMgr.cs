@@ -19,7 +19,15 @@ public class GreenAreaMgr : MonoBehaviour
     public float minSmallRadius = 0.1f; // 小圆最小半径
     public float maxSmallRadius = 0.4f; // 小圆最大半径
     
-    
+    public static GreenAreaMgr Instance;
+
+    private void Awake()
+    {
+        circles.Clear();
+        Instance = this;
+    }
+
+
     public void ClearCircles()
     {
         circles.Clear();

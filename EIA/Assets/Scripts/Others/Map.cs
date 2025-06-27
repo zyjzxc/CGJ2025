@@ -61,6 +61,8 @@ public class Map : MonoBehaviour
     {
         SpatterAreas.Add(new SpatterArea { Position = pos, radius = radius });
         CurrSpatterAreaSize = GetTotalSpatterAreaSize();
+        
+        GreenAreaMgr.Instance.AddCircle(new Vector2(pos.x, pos.z), radius);
 
         // render?
     }

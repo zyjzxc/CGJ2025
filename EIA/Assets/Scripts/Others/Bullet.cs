@@ -79,7 +79,8 @@ public class Bullet : MonoBehaviour
 
         if (Map.MapInstance.IsOutSide(transform.position))
         {
-            Disappear();
+            //TODO: just test green
+            Spatter();
         }
     }
 
@@ -168,7 +169,7 @@ public class Bullet : MonoBehaviour
     public void Spatter()
     {
         Debug.Log($"{gameObject.name} spawn");
-        Map.MapInstance.SpatterOnMap(transform.position, 1);
+        Map.MapInstance.SpatterOnMap(transform.position, Speed / 2);
         Disappear();
     }
 
