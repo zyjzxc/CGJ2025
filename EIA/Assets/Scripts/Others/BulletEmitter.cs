@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class BulletSetting
@@ -20,6 +21,8 @@ public class BulletEmitter : MonoBehaviour
     private float m_MapRadius;
 
     public float EmitRate;
+    
+    public float EmitDirRandomness = 0.5f;
 
     private int m_Frame;
     
@@ -76,7 +79,51 @@ public class BulletEmitter : MonoBehaviour
 
     private Vector3 RandomBulletStartDir(Vector3 startPos)
     {
-        // TODO
-        return (-startPos + m_MapCenter).normalized;
+        // 生成与输入向量夹角≤90°的随机向量（方向符合正态分布）
+        Vector2 GetRandomVectorInCone(Vector2 inputDirection)
+        {
+            // 处理零向量输入
+            if (inputDirection == Vector2.zero)
+                return Random.insideUnitCircle.normalized;
+
+            // 1. 计算输入向量的基础角度（弧度）
+            float baseAngle = Mathf.Atan2(inputDirection.y, inputDirection.x);
+
+            // 2. 生成符合正态分布的角度偏移量
+            float angleOffset = GenerateTruncatedGaussian(-Mathf.PI / 2, Mathf.PI / 2, EmitDirRandomness);
+
+            // 3. 计算新角度
+            float newAngle = baseAngle + angleOffset;
+
+            // 4. 创建单位向量
+            return new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
+        }
+
+        // 生成截断正态分布随机数（范围[min, max]）
+        float GenerateTruncatedGaussian(float min, float max, float stdDev)
+        {
+            float result;
+            do
+            {
+                result = BoxMullerTransform(0f, stdDev);
+            } 
+            while (result < min || result > max); // 确保在有效范围内
+        
+            return result;
+        }
+
+        // Box-Muller变换生成正态分布随机数
+        float BoxMullerTransform(float mean, float stdDev)
+        {
+            float u1 = 1.0f - Random.value; // [0,1) -> (0,1]
+            float u2 = 1.0f - Random.value;
+            float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
+            return mean + stdDev * randStdNormal;
+        }
+
+        Vector3 dir = (-startPos + m_MapCenter).normalized;
+        Vector2 randomDirection = GetRandomVectorInCone(new Vector2(dir.x, dir.z));
+        
+        return new Vector3(randomDirection.x, 0, randomDirection.y).normalized;
     }
 }
