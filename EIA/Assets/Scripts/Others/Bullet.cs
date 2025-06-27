@@ -89,6 +89,7 @@ public class Bullet : MonoBehaviour
         
         if (other.gameObject.layer == GameContext.PlayerLayer && CaughtState != BulletState.BeCaught)
         {
+            // TODO: player 无敌处理
             DoDamage(other.gameObject);
         }
     }
@@ -174,11 +175,13 @@ public class Bullet : MonoBehaviour
     public void DoDamage(GameObject player)
     {
         Debug.Log($"{player.name} {gameObject.name} damage");
+        PlayerHealth.PlayerHealthInstance.TakeDamage(Damage);
         Disappear();
     }
 
     public void Disappear()
     {
-        GameObject.DestroyImmediate(this.gameObject);
+        //TODO: some vfx
+        GameObject.Destroy(this.gameObject);
     }
 }
