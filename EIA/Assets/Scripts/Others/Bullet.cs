@@ -31,6 +31,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         m_Transfrom = transform;
+        gameObject.layer = GameContext.BulletLayer;
 
         do
         {
@@ -71,7 +72,7 @@ public class Bullet : MonoBehaviour
 
             if (Speed <= 0)
             {
-                Spawn();
+                Spatter();
             }
         }
     }
@@ -151,9 +152,10 @@ public class Bullet : MonoBehaviour
     }
 
     // 
-    public void Spawn()
+    public void Spatter()
     {
         Debug.Log($"{gameObject.name} spawn");
+        Map.MapInstance.SpatterOnMap(transform.position, 1);
         GameObject.DestroyImmediate(this.gameObject);
     }
 
