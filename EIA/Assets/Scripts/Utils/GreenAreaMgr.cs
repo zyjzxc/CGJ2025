@@ -17,7 +17,7 @@ public class GreenAreaMgr : MonoBehaviour
     
     // 小圆参数范围
     public float minSmallRadius = 0.1f; // 小圆最小半径
-    public float maxSmallRadius = 0.4f; // 小圆最大半径
+    public float maxSmallRadius = 0.3f; // 小圆最大半径
     
     public static GreenAreaMgr Instance;
 
@@ -41,7 +41,7 @@ public class GreenAreaMgr : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             // 1. 在大圆边缘随机生成角度(0到2π)
-            float angle = (float)random.NextDouble() * Mathf.PI * 2;
+            float angle = ((float)random.NextDouble() * 0.1f + i * 0.125f) * Mathf.PI * 2;
             
             // 2. 计算小圆圆心坐标(在大圆边缘上)
             float x = position.x + showRadius * Mathf.Cos(angle);
@@ -59,7 +59,7 @@ public class GreenAreaMgr : MonoBehaviour
         ClearCircles();
         AddCircle(new Vector2(0, 0), 1);
         
-        AddCircle(new Vector2(1, 0), 1);
+        AddCircle(new Vector2(2, 0), 1);
         
         AddCircle(new Vector2(2, 2), 1);
     }
