@@ -49,7 +49,8 @@ public class Bullet : MonoBehaviour
             }
         } while (false);
         
-        Debug.LogError($"{gameObject.name} no collider!");
+        if(GetComponent<Collider>() == null)
+            Debug.LogWarning($"{gameObject.name} no collider!");
     }
 
     // Update is called once per frame
@@ -74,6 +75,11 @@ public class Bullet : MonoBehaviour
             {
                 Spatter();
             }
+        }
+
+        if (Map.MapInstance.IsOutSide(transform.position))
+        {
+            Disappear();
         }
     }
 
@@ -156,12 +162,17 @@ public class Bullet : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} spawn");
         Map.MapInstance.SpatterOnMap(transform.position, 1);
-        GameObject.DestroyImmediate(this.gameObject);
+        Disappear();
     }
 
     public void DoDamage(GameObject player)
     {
         Debug.Log($"{player.name} {gameObject.name} damage");
+        Disappear();
+    }
+
+    public void Disappear()
+    {
         GameObject.DestroyImmediate(this.gameObject);
     }
 }

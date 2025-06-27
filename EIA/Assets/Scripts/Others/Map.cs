@@ -11,7 +11,15 @@ public class SpatterArea
 
 public class Map : MonoBehaviour
 {
-    public float MapSize = 100;
+    public float MapRadius = 100;
+
+    public float MapSize
+    {
+        get
+        {
+            return MapRadius * MapRadius * Mathf.PI;
+        }
+    }
 
     public float CurrSpatterAreaSize;
 
@@ -53,5 +61,10 @@ public class Map : MonoBehaviour
     {
         // TODO
         return 0;
+    }
+
+    public bool IsOutSide(Vector3 pos)
+    {
+        return (pos - transform.position).magnitude > MapRadius + 2;
     }
 }
