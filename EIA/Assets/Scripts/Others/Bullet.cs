@@ -93,12 +93,18 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void Caught()
+    {
+        CaughtState = BulletState.BeCaught;
+    }
+
     // 抓住后重新发射
     public void ReEmit(Vector3 direction, float startSpeed)
     {
         Direction = direction.normalized;
         Speed = startSpeed;
-        
+
+        CaughtState = BulletState.AfterCaught;
     }
 
     private void CopyCollider(Collider source)
