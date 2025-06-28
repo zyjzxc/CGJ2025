@@ -15,9 +15,19 @@ public class BulletSetting
     public int MaxNumer;
 }
 
-public class BulletEmitter : MonoBehaviour
+[Serializable]
+public class BulletEmitStage
 {
     public List<BulletSetting> BulletSettings;
+
+    public float StageChangeCondition;
+}
+
+public class BulletEmitter : MonoBehaviour
+{
+    public List<BulletEmitStage> BulletEmitStageConfigs;
+    
+    private List<BulletSetting> BulletSettings;
 
     private Vector3 m_MapCenter;
     private float m_MapRadius;
@@ -32,13 +42,11 @@ public class BulletEmitter : MonoBehaviour
     
     void Start()
     {
-        if (Bullets == null)
+        BulletSettings = BulletEmitStageConfigs.First().BulletSettings;
+        Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
+        for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
         {
-            Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
-            for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
-            {
-                Bullets[i] = new List<Bullet>();
-            }
+            Bullets[i] = new List<Bullet>();
         }
         
         m_MapCenter = Map.MapInstance.transform.position;
@@ -56,12 +64,14 @@ public class BulletEmitter : MonoBehaviour
 
             if (bullet != null)
             {
-                var bulletGO = Instantiate(bullet, transform, true);
-                bulletGO.ParentBulletEmitter = this;
-                bulletGO.Init();
-            
-                Bullets[(int)bulletGO.GetBulletType()].Add(bulletGO);
+                EmitBullet(bullet);
             }
+        }
+
+        foreach (var stage in BulletEmitStageConfigs)
+        {
+            if(stage.StageChangeCondition < Map.MapInstance.CurrCleanAreaRation)
+                BulletSettings = stage.BulletSettings;
         }
     }
 
@@ -96,7 +106,7 @@ public class BulletEmitter : MonoBehaviour
     {
         float theta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         
-        return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter;
+        return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter + Vector3.up * Map.MapInstance.MapHeight;
     }
 
     public Vector3 RandomBulletStartDir(Vector3 startPos)
@@ -154,4 +164,14 @@ public class BulletEmitter : MonoBehaviour
         Bullets[(int)bullet.GetBulletType()].Remove(bullet);
         GameObject.Destroy(bullet.gameObject);
     }
+
+    public void EmitBullet(Bullet bullet)
+    {
+        var bulletGO = Instantiate(bullet, transform, true);
+        bulletGO.ParentBulletEmitter = this;
+        bulletGO.Init();
+            
+        Bullets[(int)bulletGO.GetBulletType()].Add(bulletGO);
+    }
+    
 }

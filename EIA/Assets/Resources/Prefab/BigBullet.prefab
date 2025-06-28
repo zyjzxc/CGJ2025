@@ -118,15 +118,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279803fe1a0b3684baf3b162544dfdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 15
+  Speed: 46.7
   Direction: {x: 0, y: 0, z: 0}
-  Damage: 20
+  Damage: 1
   BulletState: 0
-  SpeedDecraseSpeed: 0
+  SpeedDecraseSpeed: 7.94
   ColliderSettings: {fileID: 0}
   ParentBulletEmitter: {fileID: 0}
-  IdleTimer: 1
-  CurrIdleTimer: 0
-  BounceBackPosition: {x: 0, y: 0, z: 0}
-  SpatterRadius: 1
-  TargetRunningPos: {x: 0, y: 0, z: 0}
+  IdleTimer: 2
+  SpatterRadius: 2

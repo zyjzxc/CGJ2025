@@ -6,13 +6,15 @@ public class BigBullet : Bullet
 {
     public float IdleTimer = 2.0f;
     
-    public float CurrIdleTimer = 0.0f;
+    private float CurrIdleTimer = 0.0f;
 
-    public Vector3 BounceBackPosition;
+    private Vector3 BounceBackPosition;
 
     public float SpatterRadius = 1.0f;
 
-    public Vector3 TargetRunningPos;
+    private Vector3 TargetRunningPos;
+
+    private Material mat;
     
     public override void BounceBack()
     {
@@ -37,20 +39,28 @@ public class BigBullet : Bullet
             else
             {
                 Vector3 direction = BounceBackPosition - transform.position;
-                transform.Translate(direction * (speed * Time.deltaTime), Space.World);
+                transform.Translate(direction * (speed * Speed * Time.deltaTime), Space.World);
             }
         }
         
         else if (BulletState == BulletState.Idle)
         {
             CurrIdleTimer += Time.deltaTime;
+            if (mat == null)
+            {
+                mat = new Material(GetComponent<Renderer>().sharedMaterial);
+                GetComponent<Renderer>().SetSharedMaterials(new List<Material>(){mat});
+            }
+            mat.SetColor("_BaseColor", Color.Lerp(Color.white, Color.red, CurrIdleTimer / IdleTimer));
+            
             if (CurrIdleTimer >= IdleTimer)
             {
                 BulletState = BulletState.Running;
                 CurrIdleTimer = Random.Range(0.0f, 0.5f);
+                IdleTimer = Mathf.Max(Random.Range(IdleTimer - 0.5f, IdleTimer + 0.5f), 1.5f);
                 // TODO: Some ready to run vfx
                 Direction = (RoleController.Instance.transform.position - transform.position).normalized;
-                TargetRunningPos = RoleController.Instance.transform.position + Direction * 2.0f;
+                TargetRunningPos = RoleController.Instance.transform.position + Direction * 8.0f;
             }
         }
         
@@ -58,6 +68,11 @@ public class BigBullet : Bullet
         {
             transform.Translate(Direction * (Speed * Time.deltaTime), Space.World);
             if (Vector3.Dot(TargetRunningPos - transform.position, Direction) < 0.0f)
+            {
+                BulletState = BulletState.Idle;
+            }
+
+            if (Map.MapInstance.IsOutSide(transform.position))
             {
                 BulletState = BulletState.Idle;
             }
@@ -73,5 +88,10 @@ public class BigBullet : Bullet
     {
         transform.position = ParentBulletEmitter.RandomBulletStartPos();
         BulletState = BulletState.Idle;
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
     }
 }

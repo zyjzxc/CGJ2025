@@ -15,6 +15,6 @@ public class MapCleanProcess : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CleanSlider.value = Map.MapInstance.CurrSpatterAreaSize / (Map.MapInstance.MapSize * 0.95f);
+        CleanSlider.value = Map.MapInstance.CurrCleanAreaRation;
     }
 }

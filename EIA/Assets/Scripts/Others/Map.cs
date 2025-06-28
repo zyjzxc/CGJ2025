@@ -21,6 +21,8 @@ public class Map : MonoBehaviour
 {
     public float MapRadius = 100;
 
+    public float MapHeight = 1.0f;
+
     public float MapSize
     {
         get
@@ -30,6 +32,14 @@ public class Map : MonoBehaviour
     }
 
     public float CurrSpatterAreaSize;
+
+    public float CurrCleanAreaRation
+    {
+        get
+        {
+            return CurrSpatterAreaSize / (MapSize * 0.95f);
+        }
+    }
 
     public static Map MapInstance;
     
@@ -62,16 +72,21 @@ public class Map : MonoBehaviour
         SpatterAreas.Add(new SpatterArea { Position = pos, radius = radius });
         CurrSpatterAreaSize = GetTotalSpatterAreaSize();
 
+        List<Bullet> needClear = new();
+
         foreach (var bulletList in BulletEmitter.Bullets)
         {
             foreach (var bullet in bulletList)
             {
-                if ((bullet.transform.position - bullet.gameObject.transform.position).magnitude < radius)
+                if ((bullet.transform.position - pos).magnitude < radius)
                 {
-                    bullet.Disappear();
+                    needClear.Add(bullet);
                 }
             }
         }
+        
+        foreach (var bullet in needClear)
+            bullet.Disappear();
         
         GreenAreaMgr.Instance.AddCircle(new Vector2(pos.x, pos.z), radius);
 

@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 
-public class SceneLitShaderGUI : ShaderGUI
+public class SceneLitShaderGUI : BaseShaderGUI
 {
     // 反射所需的类型和方法
     private static System.Type litShaderGUIType;
     private static MethodInfo onGUIMethod;
+    private static MethodInfo validateMaterialMethod;
     private static object baseShaderGUIInstance;
 
     // 自定义属性
@@ -26,6 +27,11 @@ public class SceneLitShaderGUI : ShaderGUI
                 BindingFlags.Public | BindingFlags.Instance, 
                 null, 
                 new System.Type[] { typeof(MaterialEditor), typeof(MaterialProperty[]) }, 
+                null);
+            validateMaterialMethod = litShaderGUIType.GetMethod("ValidateMaterial", 
+                BindingFlags.NonPublic | BindingFlags.Instance, 
+                null, 
+                new System.Type[] { typeof(Material) }, 
                 null);
         }
     }

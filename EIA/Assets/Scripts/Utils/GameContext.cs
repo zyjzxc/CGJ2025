@@ -14,7 +14,7 @@ public static class GameContext
     {
         get
         {
-            return PlayerHealth.PlayerHealthInstance.Health <= 0;
+            return PlayerHealth.PlayerHealthInstance.CurrentHealth <= 0;
         }
     }
 
