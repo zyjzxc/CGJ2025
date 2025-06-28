@@ -43,8 +43,14 @@ public class PlayerHealth : MonoBehaviour
             Health = 0;
             Debug.Log("Game Over!!");
         }
-        if(InvincibleTime >= 0)
+
+        if (InvincibleTime >= 0)
+        {
             InvincibleTime -= Time.deltaTime;
+            
+            //TODO: some vfx
+        }
+            
         HealthSlider.value = Health / MaxHealth;
     }
 
@@ -69,4 +75,9 @@ public class PlayerHealth : MonoBehaviour
 	{
 		DamageLabel = !DamageLabel;
 	}
+
+    public void AddInvincibleTime(float time)
+    {
+        InvincibleTime += time;
+    }
 }

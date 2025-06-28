@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -41,7 +42,14 @@ public class RoleController : MonoBehaviour
 	private Animator animator;          // 可选：用于动画控制
 	private PlayerHealth playerHealth;
 	private float turnVelocity;         // 转向速度缓存
+	
+	public static RoleController Instance;
 	private Vector3 targetPos; //冲刺目的地缓存
+
+	private void Awake()
+	{
+		Instance = this;
+	}
 
 	void Start()
 	{

@@ -11,11 +11,13 @@ public class BulletSetting
     public Bullet BulletPrefab;
 
     public float EmitRate;
+
+    public int MaxNumer;
 }
 
 public class BulletEmitter : MonoBehaviour
 {
-    public List<BulletSetting>  BulletSettings;
+    public List<BulletSetting> BulletSettings;
 
     private Vector3 m_MapCenter;
     private float m_MapRadius;
@@ -26,8 +28,19 @@ public class BulletEmitter : MonoBehaviour
 
     private int m_Frame;
     
+    public static List<Bullet>[] Bullets = null;
+    
     void Start()
     {
+        if (Bullets == null)
+        {
+            Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
+            for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
+            {
+                Bullets[i] = new List<Bullet>();
+            }
+        }
+        
         m_MapCenter = Map.MapInstance.transform.position;
         m_MapRadius = Map.MapInstance.MapRadius;
     }
@@ -41,9 +54,14 @@ public class BulletEmitter : MonoBehaviour
 
             var bullet = RandomBullet();
 
-            var bulletGO = Instantiate(bullet, transform, true);
-            bulletGO.transform.position = RandomBulletStartPos();
-            bulletGO.Direction = RandomBulletStartDir(bulletGO.transform.position);
+            if (bullet != null)
+            {
+                var bulletGO = Instantiate(bullet, transform, true);
+                bulletGO.ParentBulletEmitter = this;
+                bulletGO.Init();
+            
+                Bullets[(int)bulletGO.GetBulletType()].Add(bulletGO);
+            }
         }
     }
 
@@ -52,32 +70,36 @@ public class BulletEmitter : MonoBehaviour
         float totalRate = 0;
         foreach (BulletSetting b in BulletSettings)
         {
-            totalRate += b.EmitRate;
+            if(Bullets[(int)b.BulletPrefab.GetBulletType()].Count < b.MaxNumer)
+                totalRate += b.EmitRate;
         }
         
-        float random =  UnityEngine.Random.Range(0, totalRate);
+        float random = UnityEngine.Random.Range(0, totalRate);
 
         totalRate = 0;
         foreach (BulletSetting b in BulletSettings)
         {
-            totalRate += b.EmitRate;
-            if (totalRate > random)
+            if (Bullets[(int)b.BulletPrefab.GetBulletType()].Count < b.MaxNumer)
             {
-                return b.BulletPrefab;
+                totalRate += b.EmitRate;
+                if (totalRate > random)
+                {
+                    return b.BulletPrefab;
+                }
             }
         }
         
-        return BulletSettings.Last().BulletPrefab;
+        return null;
     }
 
-    private Vector3 RandomBulletStartPos()
+    public Vector3 RandomBulletStartPos()
     {
         float theta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         
         return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter;
     }
 
-    private Vector3 RandomBulletStartDir(Vector3 startPos)
+    public Vector3 RandomBulletStartDir(Vector3 startPos)
     {
         // 生成与输入向量夹角≤90°的随机向量（方向符合正态分布）
         Vector2 GetRandomVectorInCone(Vector2 inputDirection)
@@ -125,5 +147,11 @@ public class BulletEmitter : MonoBehaviour
         Vector2 randomDirection = GetRandomVectorInCone(new Vector2(dir.x, dir.z));
         
         return new Vector3(randomDirection.x, 0, randomDirection.y).normalized;
+    }
+
+    public void DestroyBullet(Bullet bullet)
+    {
+        Bullets[(int)bullet.GetBulletType()].Remove(bullet);
+        GameObject.Destroy(bullet.gameObject);
     }
 }

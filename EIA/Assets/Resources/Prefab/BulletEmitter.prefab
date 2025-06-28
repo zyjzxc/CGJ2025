@@ -47,5 +47,9 @@ MonoBehaviour:
   BulletSettings:
   - BulletPrefab: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
       type: 3}
+    EmitRate: 4
+  - BulletPrefab: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
+      type: 3}
     EmitRate: 1
   EmitRate: 30
+  EmitDirRandomness: 0.5
