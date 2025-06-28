@@ -55,9 +55,10 @@ public class PlayerAnimController : MonoBehaviour
         Destroy(currentEffect, effectDuration);
     }
 
-    public string GetState()
+    public bool IsState(string stateName)
     {
         var state = animator.GetCurrentAnimatorStateInfo(0);
-        return state.ToString();
+        
+        return state.IsName(stateName);
     }
 }
