@@ -179,15 +179,7 @@ public class RoleController : MonoBehaviour
 		playerAnimaController.Attack();
 		Debug.Log("Role正在攻击");
 
-		StartCoroutine(ExecuteAfterDelay(SpellAttackHit, 0.2f));
 	}
-
-	IEnumerator ExecuteAfterDelay(System.Action action, float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		if (action != null) action.Invoke();
-	}
-
 
 	//动画注册攻击技能生效事件
 	void SpellAttackHit()
@@ -208,7 +200,6 @@ public class RoleController : MonoBehaviour
 		Debug.Log("Role正在闪避");
 		playerAnimaController.Dodge();
 
-		StartCoroutine(ExecuteAfterDelay(OnSpellSprintEnd, 0.5f));
 	}
 
 	void HandleSpelSprinting()
@@ -234,9 +225,6 @@ public class RoleController : MonoBehaviour
 		UpdatePowerUI();
 		Debug.Log("Role正在弹反");
 		playerAnimaController.Parry();
-
-		StartCoroutine(ExecuteAfterDelay(OnSpellBounceEffect, 0.2f));
-		StartCoroutine(ExecuteAfterDelay(OnSpellBounceEnd, 0.5f));
 
 	}
 
