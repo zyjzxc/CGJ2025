@@ -6,7 +6,7 @@ public class BigBullet : Bullet
 {
     public float IdleTimer = 4.0f;
     
-    private float CurrIdleTimer = 0.0f;
+    protected float CurrIdleTimer = 0.0f;
 
     private Vector3 BounceBackPosition;
 

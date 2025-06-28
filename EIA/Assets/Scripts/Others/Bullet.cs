@@ -15,6 +15,7 @@ public enum BulletType
 {
     Small,
     Big,
+    Heal,
     BulletTypeCount,
 }
 

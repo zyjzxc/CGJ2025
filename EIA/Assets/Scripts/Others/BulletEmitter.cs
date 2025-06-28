@@ -10,9 +10,11 @@ public class BulletSetting
 {
     public Bullet BulletPrefab;
 
-    public float EmitRate;
+    public float EmitRate = 60.0f;
 
     public int MaxNumer;
+
+    [NonSerialized] public int CurrFrame = 0;
 }
 
 [Serializable]
@@ -31,12 +33,8 @@ public class BulletEmitter : MonoBehaviour
 
     private Vector3 m_MapCenter;
     private float m_MapRadius;
-
-    public float EmitRate;
     
     public float EmitDirRandomness = 0.5f;
-
-    private int m_Frame;
     
     public static List<Bullet>[] Bullets = null;
     
@@ -56,15 +54,16 @@ public class BulletEmitter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_Frame++ > EmitRate)
+        foreach (BulletSetting b in BulletSettings)
         {
-            m_Frame = 0;
-
-            var bullet = RandomBullet();
-
-            if (bullet != null)
+            if (Bullets[(int)b.BulletPrefab.GetBulletType()].Count < b.MaxNumer)
             {
-                EmitBullet(bullet);
+                b.CurrFrame++;
+                if (b.CurrFrame > b.EmitRate)
+                {
+                    EmitBullet(b.BulletPrefab);
+                    b.CurrFrame = 0;
+                }
             }
         }
 
