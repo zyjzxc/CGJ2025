@@ -46,7 +46,13 @@ public class PlayerAnimController : MonoBehaviour
 
     public void TriggerEffect(string effectName)
     {
-        
+        var effectPrefab = Resources.Load<GameObject>($"Effect/{effectName}");
+        Debug.Log($"Assets/Resources/Effect/{effectName}");
+        var currentEffect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+    
+        // 方案1：延迟销毁（适用于有生命周期的特效）
+        float effectDuration = currentEffect.GetComponent<ParticleSystem>()?.main.duration ?? 5f;
+        Destroy(currentEffect, effectDuration);
     }
 
     public string GetState()
