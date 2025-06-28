@@ -814,13 +814,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051ccd02b9f0429499bb7b4a25b64037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
   turnSmoothing: 0.1
-  sprintSpeed: 50
+  sprintSpeed: 30
   sprintDistance: 5
   sprintCost: 3
-  powerRecover: 1
-  maxPowerAmount: 6
+  powerRecover: 1.8
+  maxPowerAmount: 3
   bounceCost: 3
   checkRadius: 5
   attackCost: 3
@@ -1516,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[0].MaxNumer
-      value: 3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
@@ -1526,7 +1526,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[1].MaxNumer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}

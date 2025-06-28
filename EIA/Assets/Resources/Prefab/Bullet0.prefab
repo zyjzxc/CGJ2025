@@ -122,6 +122,6 @@ MonoBehaviour:
   Direction: {x: 0, y: 0, z: 0}
   Damage: 1
   BulletState: 0
-  SpeedDecraseSpeed: 3
+  SpeedDecraseSpeed: 1
   ColliderSettings: {fileID: 0}
   ParentBulletEmitter: {fileID: 0}
