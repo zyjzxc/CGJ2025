@@ -125,8 +125,9 @@ MonoBehaviour:
   SpeedDecraseSpeed: 0
   ColliderSettings: {fileID: 0}
   ParentBulletEmitter: {fileID: 0}
-  IdleTimer: 1
+  IdleTimer: 2
   CurrIdleTimer: 0
   BounceBackPosition: {x: 0, y: 0, z: 0}
   SpatterRadius: 1
   TargetRunningPos: {x: 0, y: 0, z: 0}
+  mat: {fileID: 0}

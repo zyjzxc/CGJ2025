@@ -27,6 +27,8 @@ public class PlayerHealth : MonoBehaviour
 
 	public bool DamageLabel = true;
 
+    private Material roleMat;
+
     private void Awake()
     {
         PlayerHealthInstance = this;
@@ -52,8 +54,14 @@ public class PlayerHealth : MonoBehaviour
         if (InvincibleTime >= 0)
         {
             InvincibleTime -= Time.deltaTime;
-            
+
             //TODO: some vfx
+            if (roleMat == null)
+            {
+                roleMat = RoleController.Instance.GetComponent<Renderer>().sharedMaterial;
+            }
+            roleMat.SetColor("_BaseColor", Color.Lerp(Color.white, 
+                new Color(1, 1, 1, 0), InvincibleTime * 6 - (int)(InvincibleTime * 6)));
         }
     }
 
