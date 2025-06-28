@@ -91,9 +91,10 @@ public class PlayerHealth : MonoBehaviour
         return true;
     }
 
-	public void ModifyDamageLabel()
+	public void ModifyDamageLabel(bool tempLabel)
 	{
-		DamageLabel = !DamageLabel;
+		Debug.Log($"DamageLabel change into {tempLabel}");
+		DamageLabel = tempLabel;
 	}
 
     public void AddInvincibleTime(float time)

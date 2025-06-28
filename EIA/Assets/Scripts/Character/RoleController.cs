@@ -71,7 +71,7 @@ public class RoleController : MonoBehaviour
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
-		playerAnimaController = GetComponent<PlayerAnimController>();
+		playerAnimaController = transform.Find("Player_Tpose").GetComponent<PlayerAnimController>();
 	}
 
 	void Update()
@@ -124,6 +124,9 @@ public class RoleController : MonoBehaviour
 			// 计算目标朝向角度
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
 
+			// 调试目标角度
+			Debug.Log($"Target angle: {targetAngle}");
+
 			// 平滑转向
 			float angle = Mathf.SmoothDampAngle(
 				transform.eulerAngles.y,
@@ -138,7 +141,6 @@ public class RoleController : MonoBehaviour
 			// 应用移动
 			moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 			controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
-			Debug.Log("Role正在移动");
 			playerAnimaController.Walk();
 		}
 		else
@@ -204,7 +206,7 @@ public class RoleController : MonoBehaviour
 		curPower = curPower-sprintCost;
 		spriteMovement = sprintDistance;
 		UpdatePowerUI();
-		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
+		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(false);
 		Debug.Log("Role正在闪避");
 		playerAnimaController.Dodge();
 
@@ -219,13 +221,16 @@ public class RoleController : MonoBehaviour
 			Vector3 move = moveDirection * sprintSpeed * Time.deltaTime;
 			controller.Move(move);
 		}
+		else
+		{
+			OnSpellSprintEnd();
+			playerAnimaController.Idle(true);
+		}
 	}
 
-	//动画注册无敌事件结束
 	void OnSpellSprintEnd()
 	{
-		playerAnimaController.Idle();
-		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
+		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(true);
 	}
 
 	void CastSpellBounce()
@@ -272,7 +277,7 @@ public class RoleController : MonoBehaviour
 		if (bounceSuccessTag)
 		{
 			Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
-			playerAnimaController.Idle();
+			playerAnimaController.Idle(true);
 		}
 	}
 
