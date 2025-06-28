@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 15
   Direction: {x: 0, y: 0, z: 0}
-  Damage: 20
+  Damage: 2
   BulletState: 0
   SpeedDecraseSpeed: 0
   ColliderSettings: {fileID: 0}

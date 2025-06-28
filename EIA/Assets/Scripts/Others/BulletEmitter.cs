@@ -56,11 +56,7 @@ public class BulletEmitter : MonoBehaviour
 
             if (bullet != null)
             {
-                var bulletGO = Instantiate(bullet, transform, true);
-                bulletGO.ParentBulletEmitter = this;
-                bulletGO.Init();
-            
-                Bullets[(int)bulletGO.GetBulletType()].Add(bulletGO);
+                EmitBullet(bullet);
             }
         }
     }
@@ -96,7 +92,7 @@ public class BulletEmitter : MonoBehaviour
     {
         float theta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         
-        return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter;
+        return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter + Vector3.up * Map.MapInstance.MapHeight;
     }
 
     public Vector3 RandomBulletStartDir(Vector3 startPos)
@@ -154,4 +150,14 @@ public class BulletEmitter : MonoBehaviour
         Bullets[(int)bullet.GetBulletType()].Remove(bullet);
         GameObject.Destroy(bullet.gameObject);
     }
+
+    public void EmitBullet(Bullet bullet)
+    {
+        var bulletGO = Instantiate(bullet, transform, true);
+        bulletGO.ParentBulletEmitter = this;
+        bulletGO.Init();
+            
+        Bullets[(int)bulletGO.GetBulletType()].Add(bulletGO);
+    }
+    
 }

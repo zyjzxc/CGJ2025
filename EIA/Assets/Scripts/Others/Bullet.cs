@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour, IBullet
     
     public Vector3 Direction;
 
-    public float Damage;
+    public int Damage;
 
     [FormerlySerializedAs("CaughtState")] public BulletState BulletState = BulletState.Idle;
     
@@ -90,11 +90,11 @@ public class Bullet : MonoBehaviour, IBullet
         if (Map.MapInstance.IsOutSide(transform.position))
         {
             //TODO: rebounce
-            Disappear();
+            Direction = ParentBulletEmitter.RandomBulletStartDir(transform.position);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         Debug.Log($"{other.gameObject.name} collide {gameObject.name}");
         

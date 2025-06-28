@@ -37,7 +37,7 @@ public class BigBullet : Bullet
             else
             {
                 Vector3 direction = BounceBackPosition - transform.position;
-                transform.Translate(direction * (speed * Time.deltaTime), Space.World);
+                transform.Translate(direction * (speed * Speed * Time.deltaTime), Space.World);
             }
         }
         
@@ -73,5 +73,10 @@ public class BigBullet : Bullet
     {
         transform.position = ParentBulletEmitter.RandomBulletStartPos();
         BulletState = BulletState.Idle;
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
     }
 }
