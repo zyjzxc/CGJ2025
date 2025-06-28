@@ -27,16 +27,16 @@ public class RoleController : MonoBehaviour
 	public float powerRecover = 0.1f;
 	public float sprintPowerCost = 2.0f;
 	public float minSprintPowerCost = 1.0f;
-	public float maxPowerAmount = 2.0f;
+	public float maxPowerAmount = 2.0f; 
 
 	[Header("弹反设置")]
-	public static float bounceCost = 3.0f;
+	public float bounceCost = 3.0f;
 	public float checkRadius = 3f; // 弹反子弹检测半径
 
-	public float curPower = 0;
-	public float bouncingMana = bounceCost;
-	public bool bounceLabel = false; //弹反标签
-	public RoleState currentstate = RoleState.Idle;
+	private float curPower = 0;
+	private float bouncingMana = 0;
+	private bool bounceLabel = false; //弹反标签
+	private RoleState currentstate = RoleState.Idle;
 	private CharacterController controller;
 	private Vector3 moveDirection;
 	private PlayerAnimController playerAnimaController;          // 可选：用于动画控制
@@ -55,7 +55,7 @@ public class RoleController : MonoBehaviour
 		controller = GetComponent<CharacterController>();
 		playerAnimaController = GetComponent<PlayerAnimController>();
 		playerHealth = GetComponent<PlayerHealth>();
-
+		bouncingMana = bounceCost;
 	}
 
 	void Update()
