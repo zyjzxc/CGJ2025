@@ -8,6 +8,8 @@ public class WinLoseTitle : MonoBehaviour
 {
     public Text titleText;
     
+    bool firstWin = true;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,10 @@ public class WinLoseTitle : MonoBehaviour
         {
             titleText.text = "Liven All!";
             titleText.gameObject.SetActive(true);
+            
+            if(firstWin)
+                GreenAreaMgr.Instance.GreenAll();
+            firstWin = false;
         }
 
         else if (GameContext.GameOver)
