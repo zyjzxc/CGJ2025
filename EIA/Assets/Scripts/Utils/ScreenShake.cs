@@ -31,6 +31,7 @@ public class ScreenShake : MonoBehaviour
             cameraTransform = Camera.main.transform;
 
         originalPosition = cameraTransform.localPosition;
+        Application.targetFrameRate = 60;
     }
 
     /// <summary>
