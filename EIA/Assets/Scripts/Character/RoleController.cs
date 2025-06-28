@@ -38,7 +38,12 @@ public class RoleController : MonoBehaviour
 	public float attackCost = 3.0f;
 	public float attackRadius = 3f; // 技能攻击半径
 
-	private float curPower = 0;
+	public float curPower
+	{
+		get;
+		private set;
+	} = 0;
+	
 	private bool bounceLabel = false; //弹反标签
 	private CharacterController controller;
 	private Vector3 moveDirection;
@@ -154,7 +159,7 @@ public class RoleController : MonoBehaviour
 	}
 	void UpdatePower()
 	{
-		curPower += powerRecover;
+		curPower += powerRecover * Time.deltaTime;
 		UpdatePowerUI();
 	}
 
