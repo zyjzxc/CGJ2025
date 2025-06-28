@@ -32,13 +32,10 @@ public class BulletEmitter : MonoBehaviour
     
     void Start()
     {
-        if (Bullets == null)
+        Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
+        for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
         {
-            Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
-            for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
-            {
-                Bullets[i] = new List<Bullet>();
-            }
+            Bullets[i] = new List<Bullet>();
         }
         
         m_MapCenter = Map.MapInstance.transform.position;
