@@ -124,9 +124,6 @@ public class RoleController : MonoBehaviour
 			// 计算目标朝向角度
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
 
-			// 调试目标角度
-			Debug.Log($"Target angle: {targetAngle}");
-
 			// 平滑转向
 			float angle = Mathf.SmoothDampAngle(
 				transform.eulerAngles.y,
@@ -145,7 +142,6 @@ public class RoleController : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Role正在静止");
 			playerAnimaController.Idle();
 		}
 	}
@@ -236,7 +232,6 @@ public class RoleController : MonoBehaviour
 		}
 		curPower -= bounceCost;
 		UpdatePowerUI();
-		Debug.Log("Role正在弹反");
 		playerAnimaController.Parry();
 
 	}
@@ -245,7 +240,6 @@ public class RoleController : MonoBehaviour
 	void OnSpellBounceEffect()
 	{
 		bounceLabel = true;
-		HandleSpellBouncing();
 	}
 
 	//动画结束弹反事件
@@ -265,15 +259,33 @@ public class RoleController : MonoBehaviour
 			{
 				continue;
 			}
-			bullet.BounceBack();
-			bounceSuccessTag = true;
+			if (bullet.BounceBack())
+			{
+				PlayEffect("fx_ParrySuccess", bullet.transform);
+				bounceSuccessTag = true;
+			}
 		}
 		if (bounceSuccessTag)
 		{
-			Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
-			//OnSpellBounceEnd();
-			//layerAnimaController.Idle(true);
+			OnBouncingSuccess();
 		}
+	}
+
+	void OnBouncingSuccess()
+	{
+		Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
+		playerAnimaController.ApplyTimeDilation(0);
+	}
+
+	public void PlayEffect(string effectName, Transform tempTransform)
+	{
+		var effectPrefab = Resources.Load<GameObject>($"Effect/{effectName}");
+		Debug.Log($"Play Effect Assets/Resources/Effect/{effectName}");
+		var currentEffect = Instantiate(effectPrefab, tempTransform.position, tempTransform.rotation);
+		currentEffect.transform.SetParent(tempTransform);
+
+		float effectDuration = currentEffect.GetComponent<ParticleSystem>()?.main.duration ?? 5f;
+		Destroy(currentEffect, effectDuration);
 	}
 
 	public void OnBeingHit()

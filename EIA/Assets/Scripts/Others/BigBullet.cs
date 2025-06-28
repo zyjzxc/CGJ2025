@@ -16,10 +16,10 @@ public class BigBullet : Bullet
 
     private Material mat;
     
-    public override void BounceBack()
+    public override bool BounceBack()
     {
         if(BulletState != BulletState.Running)
-            return;
+            return false;
         
         BulletState = BulletState.BeBounceBack;
         
@@ -32,6 +32,7 @@ public class BigBullet : Bullet
         
         var randomTheta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         BounceBackPosition = transform.position + Random.Range(0.2f, 0.8f) * new Vector3(Mathf.Cos(randomTheta), 0, Mathf.Sin(randomTheta));
+		return true;
     }
 
     public override void Tick()
