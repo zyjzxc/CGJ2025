@@ -775,6 +775,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1477034343}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6d3f6b1e271b88f46a550c4ae0ed2c35,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1477034348}
   m_SourcePrefab: {fileID: 100100000, guid: 6d3f6b1e271b88f46a550c4ae0ed2c35, type: 3}
 --- !u!1 &1477034342 stripped
 GameObject:
@@ -821,6 +825,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1477034341}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1477034348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477034342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c25fcf41d902e46b5165f395524155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1479100257
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,6 +983,7 @@ MonoBehaviour:
   checkRadius: 5
   attackCost: 3
   attackRadius: 1.5
+  bounceLabel: 0
 --- !u!143 &1481314109
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1891,7 +1908,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b83e127af1352b40ad8b4936125b7cd, type: 2}
+  - {fileID: 2100000, guid: b6baa07a9da1a9840bc8659212b7731e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

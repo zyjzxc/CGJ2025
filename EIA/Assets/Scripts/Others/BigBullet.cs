@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BigBullet : Bullet
 {
-    public float IdleTimer = 2.0f;
+    public float IdleTimer = 4.0f;
     
     private float CurrIdleTimer = 0.0f;
 
