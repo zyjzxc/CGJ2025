@@ -165,7 +165,7 @@ public class RoleController : MonoBehaviour
 
 	void UpdatePowerUI()
 	{
-		//能量条UI更新
+		PlayerEnergy.PlayerEnergyInstance.UpdateBar(curPower, curPower / maxPowerAmount);
 	}
 
 	void CastSpellAttack()
@@ -178,7 +178,17 @@ public class RoleController : MonoBehaviour
 		UpdatePowerUI();
 		playerAnimaController.Attack();
 		Debug.Log("Role正在攻击");
+
+		StartCoroutine(ExecuteAfterDelay(SpellAttackHit, 0.2f));
 	}
+
+	IEnumerator ExecuteAfterDelay(System.Action action, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		if (action != null) action.Invoke();
+	}
+
+
 	//动画注册攻击技能生效事件
 	void SpellAttackHit()
 	{
@@ -197,6 +207,8 @@ public class RoleController : MonoBehaviour
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
 		Debug.Log("Role正在闪避");
 		playerAnimaController.Dodge();
+
+		StartCoroutine(ExecuteAfterDelay(OnSpellSprintEnd, 0.5f));
 	}
 
 	void HandleSpelSprinting()
@@ -222,6 +234,10 @@ public class RoleController : MonoBehaviour
 		UpdatePowerUI();
 		Debug.Log("Role正在弹反");
 		playerAnimaController.Parry();
+
+		StartCoroutine(ExecuteAfterDelay(OnSpellBounceEffect, 0.2f));
+		StartCoroutine(ExecuteAfterDelay(OnSpellBounceEnd, 0.5f));
+
 	}
 
 	//动画开启弹反事件
@@ -239,7 +255,7 @@ public class RoleController : MonoBehaviour
 
 	void HandleSpellBouncing()
 	{
-		Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, GameContext.BulletLayer);
+		Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, 1 << GameContext.BulletLayer);
 		foreach (Collider col in colliders)
 		{
 			Bullet bullet = col.GetComponent<Bullet>();

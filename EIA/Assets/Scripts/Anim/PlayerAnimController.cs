@@ -64,6 +64,11 @@ public class PlayerAnimController : MonoBehaviour
         Destroy(currentEffect, effectDuration);
     }
 
+    public void CameraShake(int presetIndex)
+    {
+        ScreenShake.Instance.Shake(presetIndex);
+    }
+
     public bool IsState(string stateName)
     {
         var state = _animator.GetCurrentAnimatorStateInfo(0);
