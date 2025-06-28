@@ -43,4 +43,10 @@ public class PlayerAnimController : MonoBehaviour
     {
         
     }
+
+    public string GetState()
+    {
+        var state = animator.GetCurrentAnimatorStateInfo(0);
+        return state.ToString();
+    }
 }
