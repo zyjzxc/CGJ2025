@@ -61,6 +61,17 @@ public class Map : MonoBehaviour
     {
         SpatterAreas.Add(new SpatterArea { Position = pos, radius = radius });
         CurrSpatterAreaSize = GetTotalSpatterAreaSize();
+
+        foreach (var bulletList in BulletEmitter.Bullets)
+        {
+            foreach (var bullet in bulletList)
+            {
+                if ((bullet.transform.position - bullet.gameObject.transform.position).magnitude < radius)
+                {
+                    bullet.Disappear();
+                }
+            }
+        }
         
         GreenAreaMgr.Instance.AddCircle(new Vector2(pos.x, pos.z), radius);
 

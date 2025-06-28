@@ -2,15 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum BulletState
 {
-    BeforeCaught = 0,
-    BeCaught,
-    AfterCaught,
+    Idle = 0,
+    Running,
+    BeBounceBack,
 }
 
-public class Bullet : MonoBehaviour
+public enum BulletType
+{
+    Small,
+    Big,
+    BulletTypeCount,
+}
+
+public interface IBullet
+{
+    public abstract BulletType GetBulletType();
+}
+
+public class Bullet : MonoBehaviour, IBullet
 {
     [Range(0,100)]
     public float Speed;
@@ -19,19 +32,22 @@ public class Bullet : MonoBehaviour
 
     public float Damage;
 
-    public BulletState CaughtState = BulletState.BeforeCaught;
+    [FormerlySerializedAs("CaughtState")] public BulletState BulletState = BulletState.Idle;
     
     private Transform m_Transfrom;
 
     public float SpeedDecraseSpeed;
 
     public GameObject ColliderSettings;
+
+    public BulletEmitter ParentBulletEmitter;
     
     // Start is called before the first frame update
     void Start()
     {
         m_Transfrom = transform;
         gameObject.layer = GameContext.BulletLayer;
+        BulletState = BulletState.Idle;
 
         do
         {
@@ -56,57 +72,47 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CaughtState ==  BulletState.BeforeCaught)
-        {
-            transform.Translate(Direction * (Speed * Time.deltaTime), Space.World);
-        }
+        Tick();
+    }
 
-        else if (CaughtState == BulletState.BeCaught)
+    public virtual void Tick()
+    {
+        if (BulletState == BulletState.Idle)
         {
-            
+            BulletState = BulletState.Running;
         }
         
-        else if (CaughtState == BulletState.AfterCaught)
+        else if (BulletState == BulletState.Running)
         {
-            Speed -=  SpeedDecraseSpeed * Time.deltaTime;
             transform.Translate(Direction * (Speed * Time.deltaTime), Space.World);
-
-            if (Speed <= 0)
-            {
-                Spatter();
-            }
         }
-
+        
         if (Map.MapInstance.IsOutSide(transform.position))
         {
-            //TODO: just test green
-            Spatter();
+            //TODO: rebounce
+            Disappear();
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"{other.gameObject.name} collide {gameObject.name}");
         
-        if (other.gameObject.layer == GameContext.PlayerLayer && CaughtState != BulletState.BeCaught)
+        if (other.gameObject.layer == GameContext.PlayerLayer && BulletState == BulletState.Running)
         {
-            // TODO: player 无敌处理
             DoDamage(other.gameObject);
         }
     }
 
-    public void Caught()
+    public virtual void BounceBack()
     {
-        CaughtState = BulletState.BeCaught;
+        
     }
 
-    // 抓住后重新发射
-    public void ReEmit(Vector3 direction, float startSpeed)
+    public virtual void Init()
     {
-        Direction = direction.normalized;
-        Speed = startSpeed;
-
-        CaughtState = BulletState.AfterCaught;
+        transform.position = ParentBulletEmitter.RandomBulletStartPos();
+        Direction = ParentBulletEmitter.RandomBulletStartDir(transform.position);
     }
 
     private void CopyCollider(Collider source)
@@ -166,23 +172,27 @@ public class Bullet : MonoBehaviour
     }
 
     // 
-    public void Spatter()
+    public void Spatter(float radius)
     {
         Debug.Log($"{gameObject.name} spawn");
-        Map.MapInstance.SpatterOnMap(transform.position, Speed / 2);
+        Map.MapInstance.SpatterOnMap(transform.position, radius);
         Disappear();
     }
 
     public void DoDamage(GameObject player)
     {
         Debug.Log($"{player.name} {gameObject.name} damage");
-        if(PlayerHealth.PlayerHealthInstance.TakeDamage(Damage))
-            Disappear();
+        PlayerHealth.PlayerHealthInstance.TakeDamage(Damage);
     }
 
-    public void Disappear()
+    public virtual void Disappear()
     {
         //TODO: some vfx
-        GameObject.Destroy(this.gameObject);
+        ParentBulletEmitter.DestroyBullet(this);
+    }
+
+    public virtual BulletType GetBulletType()
+    {
+        return BulletType.Small;
     }
 }

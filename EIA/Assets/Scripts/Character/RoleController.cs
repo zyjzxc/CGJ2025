@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,13 @@ public class RoleController : MonoBehaviour
 	private Vector3 moveDirection;
 	private Animator animator;          // 可选：用于动画控制
 	private float turnVelocity;         // 转向速度缓存
+	
+	public static RoleController Instance;
+
+	private void Awake()
+	{
+		Instance = this;
+	}
 
 	void Start()
 	{
