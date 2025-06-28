@@ -59,8 +59,9 @@ public class BigBullet : Bullet
                 CurrIdleTimer = Random.Range(0.0f, 0.5f);
                 IdleTimer = Mathf.Max(Random.Range(IdleTimer - 0.5f, IdleTimer + 0.5f), 1.5f);
                 // TODO: Some ready to run vfx
-                Direction = (RoleController.Instance.transform.position - transform.position).normalized;
-                TargetRunningPos = RoleController.Instance.transform.position + Direction * 8.0f;
+                Direction = RoleController.Instance.transform.position - transform.position;
+                Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
+                TargetRunningPos = RoleController.Instance.transform.position + Direction * 2.0f;
             }
         }
         
@@ -69,11 +70,13 @@ public class BigBullet : Bullet
             transform.Translate(Direction * (Speed * Time.deltaTime), Space.World);
             if (Vector3.Dot(TargetRunningPos - transform.position, Direction) < 0.0f)
             {
+                transform.position = TargetRunningPos;
                 BulletState = BulletState.Idle;
             }
 
             if (Map.MapInstance.IsOutSide(transform.position))
             {
+                transform.position = TargetRunningPos;
                 BulletState = BulletState.Idle;
             }
         }
