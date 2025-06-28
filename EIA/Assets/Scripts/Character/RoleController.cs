@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public enum RoleState
@@ -26,16 +25,17 @@ public class RoleController : MonoBehaviour
 
 	[Header("能量设置")]
 	public float powerRecover = 0.1f;
-	public float powerCost = 1.0f;
+	public float sprintPowerCost = 2.0f;
+	public float minSprintPowerCost = 1.0f;
 	public float maxPowerAmount = 2.0f;
-	public static float powerInitialValue = 1.0f;
 
 	[Header("弹反设置")]
 	public static float bounceCost = 3.0f;
 	public float checkRadius = 3f; // 弹反子弹检测半径
 
-	public float curPower = powerInitialValue;
+	public float curPower = 0;
 	public float bouncingMana = bounceCost;
+	public bool bounceLabel = false; //弹反标签
 	public RoleState currentstate = RoleState.Idle;
 	private CharacterController controller;
 	private Vector3 moveDirection;
@@ -60,9 +60,10 @@ public class RoleController : MonoBehaviour
 
 	void Update()
 	{
-		UpdataMana();
+		UpdateMana();
 		if(currentstate == RoleState.Idle)
 		{
+			UpdatePower();
 			// 先检查是否按下技能键
 			if (Input.GetKeyDown(KeyCode.J))
 			{
@@ -94,7 +95,6 @@ public class RoleController : MonoBehaviour
 
 	void HandleMovement()
 	{
-		curPower += powerRecover;
 		// 获取WASD输入
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
@@ -138,32 +138,38 @@ public class RoleController : MonoBehaviour
 		}
 	}
 
-	void UpdataMana()
+	void UpdateMana()
 	{
 		bouncingMana = Math.Min(bounceCost, bouncingMana + Time.deltaTime); 
 	}
 
+	void UpdatePower()
+	{
+
+	}
+
 	void CastSpellSprint()
 	{
-		if(curPower < powerCost)
+		if(curPower < minSprintPowerCost)
 		{
+			Debug.Log("冲刺技能能量不够释放");
 			return;
 		}
-		curPower -= powerCost;
+		curPower = Math.Max(curPower-sprintPowerCost, 0);
 		playerHealth.ModifyDamageLabel();
-		currentstate = RoleState.Sprinting;
+		targetPos = //当前方向+位移
 		//播放冲刺动画
 	}
 
 	void HandleSpelSprinting()
 	{
-		//
+		//通过速度执行位移，到达目的地时执行OnSpellSprintEnd
 	}
 
+	//动画注册无敌事件结束
 	void OnSpellSprintEnd()
 	{
 		playerHealth.ModifyDamageLabel();
-		ResetRoleState();
 	}
 
 	void CastSpellBounce()
@@ -172,21 +178,19 @@ public class RoleController : MonoBehaviour
 		{
 			return;
 		}
+		bouncingMana -= bounceCost;
 		//播放动画开始弹反动作
-		currentstate = RoleState.BouncingPrepare;
 	}
 
 	//动画开启弹反事件
 	void CastSpellBouncing()
 	{
-		currentstate = RoleState.Bouncing;
 		HandleSpellBouncing();
 	}
 
 	//动画结束弹反事件
 	void EndSpellBouncing()
 	{
-		ResetRoleState();
 	}
 
 	void HandleSpellBouncing()
@@ -195,21 +199,21 @@ public class RoleController : MonoBehaviour
 		foreach (Collider col in colliders)
 		{
 			Bullet bullet = col.GetComponent<Bullet>();
-			if (bullet != null)
+			if (bullet.GetBulletType() != BulletType.Big)
 			{
-
+				continue;
 			}
+			bullet.BounceBack();
 		}
 
 	}
 
 	void HanldeTestBouncing()
 	{
-		
-	}
-
-	public void ResetRoleState()
-	{
-		currentstate = RoleState.Idle;
+		bouncingMana += Time.deltaTime;
+		if(bouncingMana < bounceCost)
+		{
+			EndSpellBouncing();
+		}
 	}
 }
