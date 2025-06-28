@@ -14,6 +14,7 @@ public class PlayerAnimController : MonoBehaviour
     
     private Animator _animator;
     private Coroutine _slowMotionCoroutine;
+    public TimeSlowParam[] timemeSlowParam;
     // Start is called before the first frame update
     void Start()
     {
@@ -86,12 +87,12 @@ public class PlayerAnimController : MonoBehaviour
     
     
     // 在动画事件中调用此方法
-    public void ApplyTimeDilation(TimeSlowParam param)//(float slowMotionScale, float duration)
+    public void ApplyTimeDilation(int index)//(float slowMotionScale, float duration)
     {
         // 如果已有慢动作协程在运行，先停止它
         if (_slowMotionCoroutine != null)
             StopCoroutine(_slowMotionCoroutine);
-            
+        var param = timemeSlowParam[index];
         // 启动新的慢动作协程
         _slowMotionCoroutine = StartCoroutine(DoTimeDilation(param.slowMotionScale, param.duration));
     }

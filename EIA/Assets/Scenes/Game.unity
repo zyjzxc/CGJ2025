@@ -2863,6 +2863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb689c18b735fdb4d921f426663d1767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timemeSlowParam:
+  - {fileID: 11400000, guid: a53b2a49fd865be41a6542f4f9f24839, type: 2}
 --- !u!95 &1477034345
 Animator:
   serializedVersion: 5
