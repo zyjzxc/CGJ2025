@@ -64,7 +64,8 @@ public class PlayerAnimController : MonoBehaviour
     {
         var effectPrefab = Resources.Load<GameObject>($"Effect/{effectName}");
         Debug.Log($"Assets/Resources/Effect/{effectName}");
-        var currentEffect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+        var currentEffect = Instantiate(effectPrefab, transform.position, transform.rotation);
+        currentEffect.transform.SetParent(transform);
     
         // 方案1：延迟销毁（适用于有生命周期的特效）
         float effectDuration = currentEffect.GetComponent<ParticleSystem>()?.main.duration ?? 5f;
