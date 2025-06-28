@@ -80,7 +80,9 @@ public class PlayerHealth : MonoBehaviour
             //TODO: do dome Invincible vfx
             InvincibleTime = 1.0f;
         }
-        UpdateHearts();
+		RoleController.Instance.OnBeingHit();
+
+		UpdateHearts();
         
         for (int i = CurrentHealth; i < Mathf.Min(CurrentHealth + damage, MaxHealth); i++)
         {

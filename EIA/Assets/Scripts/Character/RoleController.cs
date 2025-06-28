@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoleState
+public enum AnimState
 {
-	Idle,       // 静止or移动
-	Sprinting,  // 冲刺
-	BouncingPrepare, //弹反蓄力
-	Bouncing   // 弹反
+	Idle, //静止
+	Walk, //移动
+	Hit, //受击
+	Sprint, //闪避
+	Parry, //弹反
+	Attack, //技能动作
+	None
 }
 
 
@@ -21,28 +24,36 @@ public class RoleController : MonoBehaviour
 
 	[Header("闪避设置")]
 	public float sprintSpeed = 10f; //冲刺速度
-	public float sprintDistance = 5f; //冲刺距离
+	public float sprintCost = 5f; //冲刺耗蓝
 
 	[Header("能量设置")]
-	public float powerRecover = 0.1f;
-	public float sprintPowerCost = 2.0f;
-	public float minSprintPowerCost = 1.0f;
-	public float maxPowerAmount = 2.0f; 
+	public float powerRecover = 1f;
+	public float maxPowerAmount = 6.0f; 
 
 	[Header("弹反设置")]
 	public float bounceCost = 3.0f;
 	public float checkRadius = 3f; // 弹反子弹检测半径
 
+	[Header("攻击设置")]
+	public float attackCost = 3.0f;
+	public float attackRadius = 3f; // 技能攻击半径
+
 	private float curPower = 0;
-	private float bouncingMana = 0;
 	private bool bounceLabel = false; //弹反标签
-	private RoleState currentstate = RoleState.Idle;
 	private CharacterController controller;
 	private Vector3 moveDirection;
 	private PlayerAnimController playerAnimaController;          // 可选：用于动画控制
-	private PlayerHealth playerHealth;
 	private float turnVelocity;         // 转向速度缓存
-	
+
+	public Dictionary<string, AnimState> AnimStateMap = new Dictionary<string, AnimState>
+	{
+		{ "idle" ,AnimState.Idle},
+		{ "walk" ,AnimState.Walk},
+		{ "hit",AnimState.Hit },
+		{ "dodge",AnimState.Sprint },
+		{ "parry" ,AnimState.Parry},
+		{ "attack",AnimState.Attack}
+	};
 	public static RoleController Instance;
 
 	private void Awake()
@@ -54,37 +65,39 @@ public class RoleController : MonoBehaviour
 	{
 		controller = GetComponent<CharacterController>();
 		playerAnimaController = GetComponent<PlayerAnimController>();
-		playerHealth = GetComponent<PlayerHealth>();
-		bouncingMana = bounceCost;
 	}
 
 	void Update()
 	{
-		//计算弹反的CD
-		UpdateMana();
-
-		if(currentstate == RoleState.Idle)
+		var tempState = GetState();
+		if (tempState == AnimState.Idle || tempState == AnimState.Walk)
 		{
-			UpdatePower();
 			// 先检查是否按下技能键
-			if (Input.GetKeyDown(KeyCode.J))
+			if (Input.GetMouseButtonDown(0))
 			{
-				CastSpellSprint();
+				CastSpellAttack();
 				return; // 按下技能键后不再处理其他逻辑
 			}
 
-			if (Input.GetKeyDown(KeyCode.K))
+			if (Input.GetMouseButtonDown(1))
 			{
 				CastSpellBounce();
 				return; // 按下技能键后不再处理其他逻辑
 			}
+
+			if (Input.GetKeyDown(KeyCode.Space)) // 空格键
+			{
+				CastSpellSprint();
+				return;
+			}
+			UpdatePower();
 			HandleMovement();
 		}
-		else if(currentstate == RoleState.Sprinting)
+		else if(tempState == AnimState.Sprint)
 		{
 			HandleSpelSprinting();
 		}
-		else if(currentstate == RoleState.Bouncing)
+		else if(tempState == AnimState.Parry && bounceLabel == true)
 		{
 			HandleSpellBouncing();
 		}
@@ -118,72 +131,103 @@ public class RoleController : MonoBehaviour
 			// 应用移动
 			moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 			controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
-
-			// 控制动画（如果有Animator组件）
+			Debug.Log("Role正在移动");
 			playerAnimaController.Walk();
 		}
 		else
 		{
+			Debug.Log("Role正在静止");
 			playerAnimaController.Idle();
 		}
 	}
 
-	void UpdateMana()
+	private AnimState GetState()
 	{
-		bouncingMana = Math.Min(bounceCost, bouncingMana + Time.deltaTime); 
+		foreach(var kvp in AnimStateMap)
+		{
+			if (playerAnimaController.IsState(kvp.Key))
+			{
+				return kvp.Value;
+			}
+		}
+		return AnimState.None;
+	}
+	void UpdatePower()
+	{
+		curPower += powerRecover;
+		UpdatePowerUI();
 	}
 
-	void UpdatePower()
+	void UpdatePowerUI()
 	{
 		//能量条UI更新
 	}
 
+	void CastSpellAttack()
+	{
+		if (curPower < attackCost)
+		{
+			Debug.Log("Role当前能量不够释放攻击技能");
+		}
+		curPower -= attackCost;
+		UpdatePowerUI();
+		playerAnimaController.Attack();
+		Debug.Log("Role正在攻击");
+	}
+	//动画注册攻击技能生效事件
+	void SpellAttackHit()
+	{
+		Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
+	}
+
 	void CastSpellSprint()
 	{
-		if(curPower < minSprintPowerCost)
+		if(curPower < sprintCost)
 		{
-			Debug.Log("冲刺技能能量不够释放");
+			Debug.Log("Role当前能量不够释放冲刺技能");
 			return;
 		}
-		curPower = Math.Max(curPower-sprintPowerCost, 0);
-		playerHealth.ModifyDamageLabel();
-		//播放冲刺动画
+		curPower = curPower-sprintCost;
+		UpdatePowerUI();
+		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
+		Debug.Log("Role正在闪避");
+		playerAnimaController.Dodge();
 	}
 
 	void HandleSpelSprinting()
 	{
-		Vector3 move = transform.forward * sprintSpeed * Time.deltaTime;
-
-		// 使用 CharacterController 进行移动
+		Vector3 move = moveDirection * sprintSpeed * Time.deltaTime;
 		controller.Move(move);
 	}
 
 	//动画注册无敌事件结束
 	void OnSpellSprintEnd()
 	{
-		playerHealth.ModifyDamageLabel();
+		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
 	}
 
 	void CastSpellBounce()
 	{
-		if(bouncingMana < bounceCost)
+		if(curPower < bounceCost)
 		{
-			Debug.Log("弹反技能CD没好");
+			Debug.Log("Role当前能量不够释放弹反技能");
 			return;
 		}
-		bouncingMana -= bounceCost;
+		curPower -= bounceCost;
+		UpdatePowerUI();
+		Debug.Log("Role正在弹反");
 		playerAnimaController.Parry();
 	}
 
 	//动画开启弹反事件
-	void CastSpellBouncing()
+	void OnSpellBounceEffect()
 	{
 		bounceLabel = true;
 		HandleSpellBouncing();
 	}
 
 	//动画结束弹反事件
-	void EndSpellBouncing()
+	void OnSpellBounceEnd()
 	{
 		bounceLabel = false;
 	}
@@ -200,6 +244,11 @@ public class RoleController : MonoBehaviour
 			}
 			bullet.BounceBack();
 		}
+	}
 
+	public void OnBeingHit()
+	{
+		Debug.Log("Role正在被攻击");
+		playerAnimaController.Hit();
 	}
 }
