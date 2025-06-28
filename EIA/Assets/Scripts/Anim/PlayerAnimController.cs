@@ -18,7 +18,7 @@ public class PlayerAnimController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        Hit();
+        //Hit();
     }
 
     public void Hit()
