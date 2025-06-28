@@ -7,10 +7,18 @@ using UnityEngine.UI;
 public class PlayerEnergy : MonoBehaviour
 {
     private float MaxEnergy;
+
+	private float curEnergy;
     
     private Slider energySlider;
+	
+	public static PlayerEnergy PlayerEnergyInstance;
+	private void Awake()
+	{
+		PlayerEnergyInstance = this;
+	}
 
-    private void Start()
+	private void Start()
     {
         MaxEnergy = RoleController.Instance.maxPowerAmount;
         energySlider = GetComponent<Slider>();
@@ -18,7 +26,11 @@ public class PlayerEnergy : MonoBehaviour
 
     void Update()
     {
-        float ratio = RoleController.Instance.curPower / MaxEnergy;
-        energySlider.value = ratio;
     }
+
+	public void UpdateBar(float tempEnergy, float ratio)
+	{
+		curEnergy = tempEnergy;
+		energySlider.value = ratio;
+	}
 }
