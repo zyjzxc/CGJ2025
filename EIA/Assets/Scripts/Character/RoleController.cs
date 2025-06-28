@@ -45,7 +45,8 @@ public class RoleController : MonoBehaviour
 		private set;
 	} = 0;
 
-	private float spriteMovement;
+	private float sprinteMovement;
+	public bool bounceMoveTag;
 	public bool bounceLabel = false; //弹反标签
 	private CharacterController controller;
 	private Vector3 moveDirection;
@@ -97,17 +98,25 @@ public class RoleController : MonoBehaviour
 				CastSpellSprint();
 				return;
 			}
-			UpdatePower();
-			HandleMovement();
 		}
 		else if(tempState == AnimState.Sprint)
 		{
 			HandleSpelSprinting();
+			return;
 		}
-		else if(tempState == AnimState.Parry && bounceLabel == true)
+		else if(tempState == AnimState.Parry)
 		{
-			HandleSpellBouncing();
+			if (bounceMoveTag == false)
+			{
+				return;
+			}
+			if (bounceLabel == true) 
+			{
+				HandleSpellBouncing();
+			}
 		}
+		UpdatePower();
+		HandleMovement();
 	}
 
 	void HandleMovement()
@@ -194,7 +203,7 @@ public class RoleController : MonoBehaviour
 			return;
 		}
 		curPower = curPower-sprintCost;
-		spriteMovement = sprintDistance;
+		sprinteMovement = sprintDistance;
 		UpdatePowerUI();
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(false);
 		Debug.Log("Role正在闪避");
@@ -205,9 +214,9 @@ public class RoleController : MonoBehaviour
 	void HandleSpelSprinting()
 	{
 		// 如果已到达或非常接近目标点，结束冲刺
-		if (spriteMovement > 0.1f)
+		if (sprinteMovement > 0.1f)
 		{
-			spriteMovement -= sprintSpeed * Time.deltaTime;
+			sprinteMovement -= sprintSpeed * Time.deltaTime;
 			Vector3 move = moveDirection * sprintSpeed * Time.deltaTime;
 			controller.Move(move);
 		}
@@ -231,21 +240,9 @@ public class RoleController : MonoBehaviour
 			return;
 		}
 		curPower -= bounceCost;
+		bounceMoveTag = false;
 		UpdatePowerUI();
 		playerAnimaController.Parry();
-
-	}
-
-	//动画开启弹反事件
-	void OnSpellBounceEffect()
-	{
-		bounceLabel = true;
-	}
-
-	//动画结束弹反事件
-	void OnSpellBounceEnd()
-	{
-		bounceLabel = false;
 	}
 
 	public void HandleSpellBouncing()
@@ -274,6 +271,7 @@ public class RoleController : MonoBehaviour
 	void OnBouncingSuccess()
 	{
 		Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
+		ScreenShake.Instance.Shake(0);
 		playerAnimaController.ApplyTimeDilation(0);
 	}
 
@@ -294,7 +292,7 @@ public class RoleController : MonoBehaviour
 		var tempState = GetState();
 		if(tempState == AnimState.Parry)
 		{
-			OnSpellBounceEnd();
+			SpellController.spellController.OnSpellBounceEnd();
 		}
 		playerAnimaController.Hit();
 	}

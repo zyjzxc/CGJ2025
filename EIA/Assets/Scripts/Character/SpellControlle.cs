@@ -31,7 +31,7 @@ public class SpellController : MonoBehaviour
 	public void OnSpellBounceEffect()
 	{
 		RoleController.Instance.bounceLabel = true;
-		RoleController.Instance.HandleSpellBouncing();
+		RoleController.Instance.bounceMoveTag = true;
 	}
 
 	//动画结束弹反事件
