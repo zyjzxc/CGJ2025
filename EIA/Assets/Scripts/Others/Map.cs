@@ -86,7 +86,7 @@ public class Map : MonoBehaviour
         }
         
         foreach (var bullet in needClear)
-            bullet.BounceBack();
+            bullet.Disappear();
         
         GreenAreaMgr.Instance.AddCircle(new Vector2(pos.x, pos.z), radius);
 
