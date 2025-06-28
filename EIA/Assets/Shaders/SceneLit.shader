@@ -7,6 +7,7 @@ Shader "EIA/SceneLit"
 
         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
         [MainColor] _BaseColor("Color", Color) = (1,1,1,1)
+        _BaseMap2("Albedo2", 2D) = "red" {}
 
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
 
@@ -473,6 +474,6 @@ Shader "EIA/SceneLit"
         }
     }
 
-    FallBack "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
+    //FallBack "Hidden/Universal Render Pipeline/FallbackError"
+    //CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
 }

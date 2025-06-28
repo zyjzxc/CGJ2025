@@ -197,6 +197,9 @@ Varyings LitPassVertex(Attributes input)
 float _CircleCount;
 float4 _CircleParams[1000]; // 假设最多1000个圆，根据需要调整大小
 
+TEXTURE2D(_BaseMap2);
+SAMPLER(sampler_BaseMap2);
+
 // Used in Standard (Physically Based) shader
 void LitPassFragment(
     Varyings input
@@ -243,7 +246,11 @@ void LitPassFragment(
         mask += step(dist, radius); // 若点在圆内则为1，否则为0
     }
     if (mask >= 1)
-        surfaceData.albedo = half3(1, 0, 0);
+    {
+        half4 albedoAlpha = SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap2, sampler_BaseMap2));
+        surfaceData.albedo = albedoAlpha.rgb;
+    }
+        
     
     half4 color = UniversalFragmentPBR(inputData, surfaceData);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
