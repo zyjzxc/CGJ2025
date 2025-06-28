@@ -74,6 +74,7 @@ public class PlayerHealth : MonoBehaviour
         }
             
         CurrentHealth -= damage;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
         if (src == null)
         {
             //TODO: do dome Invincible vfx
