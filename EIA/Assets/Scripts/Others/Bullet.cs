@@ -86,11 +86,12 @@ public class Bullet : MonoBehaviour, IBullet
         {
             transform.Translate(Direction * (Speed * Time.deltaTime), Space.World);
         }
-        
+        Direction = RoleController.Instance.transform.position - transform.position;
+        Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
         if (Map.MapInstance.IsOutSide(transform.position))
         {
             //TODO: rebounce
-            Direction = ParentBulletEmitter.RandomBulletStartDir(transform.position);
+            //Direction = ParentBulletEmitter.RandomBulletStartDir(transform.position);
         }
     }
 

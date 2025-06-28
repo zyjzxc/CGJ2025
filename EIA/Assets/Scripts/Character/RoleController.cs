@@ -46,7 +46,7 @@ public class RoleController : MonoBehaviour
 	} = 0;
 
 	private float spriteMovement;
-	private bool bounceLabel = false; //弹反标签
+	public bool bounceLabel = false; //弹反标签
 	private CharacterController controller;
 	private Vector3 moveDirection;
 	private PlayerAnimController playerAnimaController;          // 可选：用于动画控制
@@ -77,13 +77,13 @@ public class RoleController : MonoBehaviour
 	void Update()
 	{
 		var tempState = GetState();
-		if (tempState == AnimState.Idle || tempState == AnimState.Walk)
+		if (tempState == AnimState.Idle || tempState == AnimState.Walk  ||  tempState == AnimState.Attack)
 		{
 			// 先检查是否按下技能键
 			if (Input.GetMouseButtonDown(0))
 			{
 				CastSpellAttack();
-				return; // 按下技能键后不再处理其他逻辑
+				//return; // 按下技能键后不再处理其他逻辑
 			}
 
 			if (Input.GetMouseButtonDown(1))
@@ -190,12 +190,6 @@ public class RoleController : MonoBehaviour
 
 	}
 
-	//动画注册攻击技能生效事件
-	void SpellAttackHit()
-	{
-		Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
-	}
-
 	void CastSpellSprint()
 	{
 		if(curPower < sprintCost)
@@ -260,7 +254,7 @@ public class RoleController : MonoBehaviour
 		bounceLabel = false;
 	}
 
-	void HandleSpellBouncing()
+	public void HandleSpellBouncing()
 	{
 		bool bounceSuccessTag = false;
 		Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, 1 << GameContext.BulletLayer);
