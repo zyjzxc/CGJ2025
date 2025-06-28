@@ -31,7 +31,7 @@ public class BigBullet : Bullet
         mat.SetColor("_BaseColor", Color.green);
         
         var randomTheta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
-        BounceBackPosition = transform.position + Random.Range(0.2f, 0.8f) * new Vector3(Mathf.Cos(randomTheta), 0, Mathf.Sin(randomTheta));
+        BounceBackPosition = transform.position + 3.0f * new Vector3(Mathf.Cos(randomTheta), 0, Mathf.Sin(randomTheta));
 		return true;
     }
 
@@ -40,14 +40,14 @@ public class BigBullet : Bullet
         if (BulletState == BulletState.BeBounceBack)
         {
             float speed = (BounceBackPosition - transform.position).magnitude;
-            if (speed < 0.1f)
+            if (speed < 0.2f)
             {
                 Spatter(SpatterRadius);
             }
             else
             {
                 Vector3 direction = BounceBackPosition - transform.position;
-                transform.Translate(direction * (speed * Speed * Time.deltaTime), Space.World);
+                transform.Translate(direction * (speed * Speed / 3 * Time.deltaTime), Space.World);
             }
         }
         
