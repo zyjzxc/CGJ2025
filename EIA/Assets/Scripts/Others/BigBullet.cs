@@ -23,6 +23,13 @@ public class BigBullet : Bullet
         
         BulletState = BulletState.BeBounceBack;
         
+        if (mat == null)
+        {
+            mat = new Material(GetComponent<Renderer>().sharedMaterial);
+            GetComponent<Renderer>().SetSharedMaterials(new List<Material>(){mat});
+        }
+        mat.SetColor("_BaseColor", Color.green);
+        
         var randomTheta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         BounceBackPosition = transform.position + Random.Range(0.2f, 0.8f) * new Vector3(Mathf.Cos(randomTheta), 0, Mathf.Sin(randomTheta));
     }
@@ -57,7 +64,6 @@ public class BigBullet : Bullet
             {
                 BulletState = BulletState.Running;
                 CurrIdleTimer = Random.Range(0.0f, 0.5f);
-                IdleTimer = Mathf.Max(Random.Range(IdleTimer - 0.5f, IdleTimer + 0.5f), 1.5f);
                 // TODO: Some ready to run vfx
                 Direction = RoleController.Instance.transform.position - transform.position;
                 Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
