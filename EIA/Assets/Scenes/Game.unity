@@ -813,7 +813,7 @@ MonoBehaviour:
   bounceCost: 3
   checkRadius: 5
   attackCost: 3
-  attackRadius: 5
+  attackRadius: 1.5
 --- !u!95 &1477034345
 Animator:
   serializedVersion: 5
