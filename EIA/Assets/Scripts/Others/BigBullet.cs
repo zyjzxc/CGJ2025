@@ -18,7 +18,7 @@ public class BigBullet : Bullet
     
     public override bool BounceBack()
     {
-        if(BulletState != BulletState.Running)
+        if(BulletState != BulletState.Running)//(BulletState == BulletState.BeBounceBack)
             return false;
         
         BulletState = BulletState.BeBounceBack;

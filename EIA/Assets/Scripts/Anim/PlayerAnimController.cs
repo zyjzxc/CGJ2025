@@ -101,7 +101,7 @@ public class PlayerAnimController : MonoBehaviour
     private IEnumerator DoTimeDilation(float slowMotionScale, float duration)
     {
         // 保存原始时间缩放值
-        float originalTimeScale = Time.timeScale;
+        float originalTimeScale = 1;
         float originalFixedDeltaTime = Time.fixedDeltaTime;
         
         // 应用时间膨胀

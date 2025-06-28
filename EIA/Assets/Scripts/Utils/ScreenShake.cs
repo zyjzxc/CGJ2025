@@ -53,7 +53,7 @@ public class ScreenShake : MonoBehaviour
     {
         if (currentShake != null)
             StopCoroutine(currentShake);
-
+        Debug.Log("shake camera!");
         currentShake = StartCoroutine(DoShake(intensity, duration, useCurve, curve));
     }
 

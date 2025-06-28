@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: TimeDilationSettings
+  m_Name: TimeDilationSettings 2
   m_EditorClassIdentifier: Assembly-CSharp::TimeSlowParam
-  slowMotionScale: 0.1
-  duration: 0.5
+  slowMotionScale: 0.5
+  duration: 0.1

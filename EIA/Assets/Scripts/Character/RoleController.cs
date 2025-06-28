@@ -273,6 +273,8 @@ public class RoleController : MonoBehaviour
 		Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
 		ScreenShake.Instance.Shake(0);
 		playerAnimaController.ApplyTimeDilation(0);
+		curPower = Math.Min(curPower + bounceCost, maxPowerAmount);
+		UpdatePowerUI();
 	}
 
 	public void PlayEffect(string effectName, Transform tempTransform)
