@@ -39,12 +39,11 @@ public class RoleController : MonoBehaviour
 	public RoleState currentstate = RoleState.Idle;
 	private CharacterController controller;
 	private Vector3 moveDirection;
-	private Animator animator;          // 可选：用于动画控制
+	private PlayerAnimController playerAnimaController;          // 可选：用于动画控制
 	private PlayerHealth playerHealth;
 	private float turnVelocity;         // 转向速度缓存
 	
 	public static RoleController Instance;
-	private Vector3 targetPos; //冲刺目的地缓存
 
 	private void Awake()
 	{
@@ -54,13 +53,16 @@ public class RoleController : MonoBehaviour
 	void Start()
 	{
 		controller = GetComponent<CharacterController>();
-		animator = GetComponent<Animator>();
+		playerAnimaController = GetComponent<PlayerAnimController>();
 		playerHealth = GetComponent<PlayerHealth>();
+
 	}
 
 	void Update()
 	{
+		//计算弹反的CD
 		UpdateMana();
+
 		if(currentstate == RoleState.Idle)
 		{
 			UpdatePower();
@@ -86,11 +88,6 @@ public class RoleController : MonoBehaviour
 		{
 			HandleSpellBouncing();
 		}
-		else if(currentstate == RoleState.BouncingPrepare)
-		{
-			HanldeTestBouncing();
-		}
-		
 	}
 
 	void HandleMovement()
@@ -123,18 +120,11 @@ public class RoleController : MonoBehaviour
 			controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
 
 			// 控制动画（如果有Animator组件）
-			if (animator != null)
-			{
-				animator.SetFloat("Speed", movement.magnitude);
-			}
+			playerAnimaController.Walk();
 		}
 		else
 		{
-			// 停止移动时的动画控制
-			if (animator != null)
-			{
-				animator.SetFloat("Speed", 0);
-			}
+			playerAnimaController.Idle();
 		}
 	}
 
@@ -145,7 +135,7 @@ public class RoleController : MonoBehaviour
 
 	void UpdatePower()
 	{
-
+		//能量条UI更新
 	}
 
 	void CastSpellSprint()
@@ -157,13 +147,15 @@ public class RoleController : MonoBehaviour
 		}
 		curPower = Math.Max(curPower-sprintPowerCost, 0);
 		playerHealth.ModifyDamageLabel();
-		targetPos = //当前方向+位移
 		//播放冲刺动画
 	}
 
 	void HandleSpelSprinting()
 	{
-		//通过速度执行位移，到达目的地时执行OnSpellSprintEnd
+		Vector3 move = transform.forward * sprintSpeed * Time.deltaTime;
+
+		// 使用 CharacterController 进行移动
+		controller.Move(move);
 	}
 
 	//动画注册无敌事件结束
@@ -176,21 +168,24 @@ public class RoleController : MonoBehaviour
 	{
 		if(bouncingMana < bounceCost)
 		{
+			Debug.Log("弹反技能CD没好");
 			return;
 		}
 		bouncingMana -= bounceCost;
-		//播放动画开始弹反动作
+		playerAnimaController.Parry();
 	}
 
 	//动画开启弹反事件
 	void CastSpellBouncing()
 	{
+		bounceLabel = true;
 		HandleSpellBouncing();
 	}
 
 	//动画结束弹反事件
 	void EndSpellBouncing()
 	{
+		bounceLabel = false;
 	}
 
 	void HandleSpellBouncing()
@@ -206,14 +201,5 @@ public class RoleController : MonoBehaviour
 			bullet.BounceBack();
 		}
 
-	}
-
-	void HanldeTestBouncing()
-	{
-		bouncingMana += Time.deltaTime;
-		if(bouncingMana < bounceCost)
-		{
-			EndSpellBouncing();
-		}
 	}
 }
