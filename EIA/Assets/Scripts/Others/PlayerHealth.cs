@@ -16,6 +16,8 @@ public class PlayerHealth : MonoBehaviour
 
     public float InvincibleTime;
 
+	public bool DamageLabel = true;
+
     private void Awake()
     {
         PlayerHealthInstance = this;
@@ -48,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
 
     public bool TakeDamage(float damage, GameObject src = null)
     {
-        if (InvincibleTime > 0)
+        if (InvincibleTime > 0 || DamageLabel == false)
         {
             Debug.Log($"{gameObject.name} invincible {InvincibleTime}");
             return false;
@@ -62,4 +64,9 @@ public class PlayerHealth : MonoBehaviour
         }
         return true;
     }
+
+	public void ModifyDamageLabel()
+	{
+		DamageLabel = !DamageLabel;
+	}
 }
