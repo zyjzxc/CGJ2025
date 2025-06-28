@@ -15,9 +15,19 @@ public class BulletSetting
     public int MaxNumer;
 }
 
-public class BulletEmitter : MonoBehaviour
+[Serializable]
+public class BulletEmitStage
 {
     public List<BulletSetting> BulletSettings;
+
+    public float StageChangeCondition;
+}
+
+public class BulletEmitter : MonoBehaviour
+{
+    public List<BulletEmitStage> BulletEmitStageConfigs;
+    
+    private List<BulletSetting> BulletSettings;
 
     private Vector3 m_MapCenter;
     private float m_MapRadius;
@@ -32,6 +42,7 @@ public class BulletEmitter : MonoBehaviour
     
     void Start()
     {
+        BulletSettings = BulletEmitStageConfigs.First().BulletSettings;
         Bullets = new List<Bullet>[(int)BulletType.BulletTypeCount];
         for (int i = 0; i < (int)BulletType.BulletTypeCount; i++)
         {
@@ -55,6 +66,12 @@ public class BulletEmitter : MonoBehaviour
             {
                 EmitBullet(bullet);
             }
+        }
+
+        foreach (var stage in BulletEmitStageConfigs)
+        {
+            if(stage.StageChangeCondition < Map.MapInstance.CurrCleanAreaRation)
+                BulletSettings = stage.BulletSettings;
         }
     }
 

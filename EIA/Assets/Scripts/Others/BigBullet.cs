@@ -71,6 +71,11 @@ public class BigBullet : Bullet
             {
                 BulletState = BulletState.Idle;
             }
+
+            if (Map.MapInstance.IsOutSide(transform.position))
+            {
+                BulletState = BulletState.Idle;
+            }
         }
     }
 

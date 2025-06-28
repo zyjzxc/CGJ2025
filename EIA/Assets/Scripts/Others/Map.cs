@@ -33,6 +33,14 @@ public class Map : MonoBehaviour
 
     public float CurrSpatterAreaSize;
 
+    public float CurrCleanAreaRation
+    {
+        get
+        {
+            return CurrSpatterAreaSize / (MapSize * 0.95f);
+        }
+    }
+
     public static Map MapInstance;
     
     public List<SpatterArea> SpatterAreas = new List<SpatterArea>();

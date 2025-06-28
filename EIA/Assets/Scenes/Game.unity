@@ -1142,6 +1142,194 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletSettings.Array.data[0].EmitRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletSettings.Array.data[0].MaxNumer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletSettings.Array.data[1].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletSettings.Array.data[1].MaxNumer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].StageChangeCondition
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].StageChangeCondition
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].StageChangeCondition
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[0].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[0].MaxNumer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[1].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[1].MaxNumer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[0].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[0].MaxNumer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[1].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[1].MaxNumer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[0].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[0].MaxNumer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[1].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[1].MaxNumer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[0].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[0].MaxNumer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[1].EmitRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[1].MaxNumer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[0].BulletPrefab
+      value: 
+      objectReference: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.data[1].BulletPrefab
+      value: 
+      objectReference: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[0].BulletPrefab
+      value: 
+      objectReference: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[1].BulletSettings.Array.data[1].BulletPrefab
+      value: 
+      objectReference: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[0].BulletPrefab
+      value: 
+      objectReference: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[1].BulletPrefab
+      value: 
+      objectReference: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[0].BulletPrefab
+      value: 
+      objectReference: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
+        type: 3}
+    - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
+        type: 3}
+      propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[1].BulletPrefab
+      value: 
+      objectReference: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1224,6 +1412,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737745851974941589, guid: 9f0258200c96f94449fe6fb0b87032ab,
+        type: 3}
+      propertyPath: sprintCost
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737745851974941589, guid: 9f0258200c96f94449fe6fb0b87032ab,
+        type: 3}
+      propertyPath: checkRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737745851974941589, guid: 9f0258200c96f94449fe6fb0b87032ab,
+        type: 3}
+      propertyPath: sprintSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737745851974941589, guid: 9f0258200c96f94449fe6fb0b87032ab,
+        type: 3}
+      propertyPath: attackRadius
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3271074933323105896, guid: 9f0258200c96f94449fe6fb0b87032ab,
         type: 3}
@@ -1430,6 +1638,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3499318073564980970, guid: 38b21c0d198fd434392d99167b4ba3b2,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3765932744173843402, guid: 38b21c0d198fd434392d99167b4ba3b2,
         type: 3}
