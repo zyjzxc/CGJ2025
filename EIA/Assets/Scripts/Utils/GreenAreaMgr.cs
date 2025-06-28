@@ -20,6 +20,8 @@ public class GreenAreaMgr : MonoBehaviour
     public float maxSmallRadius = 0.3f; // 小圆最大半径
     
     public static GreenAreaMgr Instance;
+    
+    private bool isGreeningAll = false;
 
     private void Awake()
     {
@@ -27,10 +29,16 @@ public class GreenAreaMgr : MonoBehaviour
         Instance = this;
     }
 
+    public void GreenAll()
+    {
+        isGreeningAll =  true;
+        circles.Add(new CircleData() { position = new Vector2(0, 0), radius = 0.1f });
+    }
 
     public void ClearCircles()
     {
         circles.Clear();
+        isGreeningAll =  false;
     }
 
     public void AddCircle(Vector2 position, float radius)
@@ -57,16 +65,17 @@ public class GreenAreaMgr : MonoBehaviour
     void Start()
     {
         ClearCircles();
-        AddCircle(new Vector2(0, 0), 1);
-        
-        AddCircle(new Vector2(2, 0), 1);
-        
-        AddCircle(new Vector2(2, 2), 1);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isGreeningAll)
+        {
+            var circle =  circles[circles.Count-1];
+            circle.radius += 0.02f; 
+            circles[circles.Count-1] = circle;
+        }
         UpdateFloorMaterial();
     }
     
