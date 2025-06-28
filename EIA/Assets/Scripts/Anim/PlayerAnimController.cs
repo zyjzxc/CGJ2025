@@ -18,6 +18,11 @@ public class PlayerAnimController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        if (_slowMotionCoroutine != null)
+        {
+            StopCoroutine(_slowMotionCoroutine);
+            Time.timeScale = 1.0f;
+        }
         //Hit();
     }
 
