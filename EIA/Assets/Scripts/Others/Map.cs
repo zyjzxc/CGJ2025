@@ -79,7 +79,7 @@ public class Map : MonoBehaviour
         {
             foreach (var bullet in bulletList)
             {
-                if ((bullet.transform.position - pos).magnitude < radius)
+                if ((bullet.transform.position - pos).magnitude < radius && bullet.BulletState != BulletState.BeBounceBack)
                 {
                     needClear.Add(bullet);
                 }
