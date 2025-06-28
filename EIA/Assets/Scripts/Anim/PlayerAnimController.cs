@@ -37,10 +37,12 @@ public class PlayerAnimController : MonoBehaviour
         _animator.SetBool("IsWalking", true);
     }
 
-    public void Idle()
+    public void Idle(bool force = false)
     {
-        //animator.Play("idle", 0, 0);
-        _animator.SetBool("IsWalking", false);
+        if (force)
+            _animator.Play("idle", 0, 0);
+        else
+            _animator.SetBool("IsWalking", false);
     }
     
     public void Parry()
