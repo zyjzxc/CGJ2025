@@ -24,6 +24,7 @@ public class RoleController : MonoBehaviour
 
 	[Header("闪避设置")]
 	public float sprintSpeed = 10f; //冲刺速度
+	public float sprintDistance = 5f; //冲刺距离
 	public float sprintCost = 5f; //冲刺耗蓝
 
 	[Header("能量设置")]
@@ -43,7 +44,8 @@ public class RoleController : MonoBehaviour
 		get;
 		private set;
 	} = 0;
-	
+
+	private float spriteMovement;
 	private bool bounceLabel = false; //弹反标签
 	private CharacterController controller;
 	private Vector3 moveDirection;
@@ -200,6 +202,7 @@ public class RoleController : MonoBehaviour
 			return;
 		}
 		curPower = curPower-sprintCost;
+		spriteMovement = sprintDistance;
 		UpdatePowerUI();
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
 		Debug.Log("Role正在闪避");
@@ -209,13 +212,19 @@ public class RoleController : MonoBehaviour
 
 	void HandleSpelSprinting()
 	{
-		Vector3 move = moveDirection * sprintSpeed * Time.deltaTime;
-		controller.Move(move);
+		// 如果已到达或非常接近目标点，结束冲刺
+		if (spriteMovement > 0.1f)
+		{
+			spriteMovement -= sprintSpeed * Time.deltaTime;
+			Vector3 move = moveDirection * sprintSpeed * Time.deltaTime;
+			controller.Move(move);
+		}
 	}
 
 	//动画注册无敌事件结束
 	void OnSpellSprintEnd()
 	{
+		playerAnimaController.Idle();
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel();
 	}
 
@@ -248,6 +257,7 @@ public class RoleController : MonoBehaviour
 
 	void HandleSpellBouncing()
 	{
+		bool bounceSuccessTag = false;
 		Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, 1 << GameContext.BulletLayer);
 		foreach (Collider col in colliders)
 		{
@@ -257,12 +267,23 @@ public class RoleController : MonoBehaviour
 				continue;
 			}
 			bullet.BounceBack();
+			bounceSuccessTag = true;
+		}
+		if (bounceSuccessTag)
+		{
+			Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
+			playerAnimaController.Idle();
 		}
 	}
 
 	public void OnBeingHit()
 	{
 		Debug.Log("Role正在被攻击");
+		var tempState = GetState();
+		if(tempState == AnimState.Parry)
+		{
+			OnSpellBounceEnd();
+		}
 		playerAnimaController.Hit();
 	}
 }
