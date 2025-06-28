@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 1247290316}
   - component: {fileID: 1247290315}
   - component: {fileID: 1247290318}
+  - component: {fileID: 1247290319}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -705,6 +706,75 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1247290319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247290314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4037778a9ce164cbfff618888dc193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presets:
+  - name: 1
+    intensity: 0.1
+    duration: 1
+    useCurve: 1
+    shakeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -0.008018494
+        value: 1.1921997
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.14707649
+        value: 1.5464119
+        inSlope: -3.991981
+        outSlope: -3.991981
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.25830662
+        value: 0.6030524
+        inSlope: -1.851905
+        outSlope: -1.851905
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.7287602
+        value: 0.7600112
+        inSlope: -1.1109662
+        outSlope: -1.1109662
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0247803
+        value: 0.05505371
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  cameraTransform: {fileID: 1247290317}
 --- !u!1 &1312019700
 GameObject:
   m_ObjectHideFlags: 0

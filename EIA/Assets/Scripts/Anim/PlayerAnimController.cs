@@ -18,7 +18,7 @@ public class PlayerAnimController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        //Hit();
+        Hit();
     }
 
     public void Hit()
@@ -62,6 +62,11 @@ public class PlayerAnimController : MonoBehaviour
         // 方案1：延迟销毁（适用于有生命周期的特效）
         float effectDuration = currentEffect.GetComponent<ParticleSystem>()?.main.duration ?? 5f;
         Destroy(currentEffect, effectDuration);
+    }
+
+    public void CameraShake(int presetIndex)
+    {
+        ScreenShake.Instance.Shake(presetIndex);
     }
 
     public bool IsState(string stateName)
