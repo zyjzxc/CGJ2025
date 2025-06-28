@@ -39,6 +39,11 @@ public class PlayerAnimController : MonoBehaviour
         animator.Play("dodge", 0, 0);
     }
 
+    public void Attack()
+    {
+        animator.Play("attack", 0,0);
+    }
+
     public void TriggerEffect(string effectName)
     {
         
