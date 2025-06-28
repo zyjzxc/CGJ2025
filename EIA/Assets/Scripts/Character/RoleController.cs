@@ -252,10 +252,6 @@ public class RoleController : MonoBehaviour
 		foreach (Collider col in colliders)
 		{
 			Bullet bullet = col.GetComponent<Bullet>();
-			if (bullet.GetBulletType() != BulletType.Big)
-			{
-				continue;
-			}
 			if (bullet.BounceBack())
 			{
 				PlayEffect("fx_ParrySuccess", bullet.transform);
