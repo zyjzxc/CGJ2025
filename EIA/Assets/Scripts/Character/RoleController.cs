@@ -159,12 +159,16 @@ public class RoleController : MonoBehaviour
 	}
 	void UpdatePower()
 	{
-		curPower += powerRecover * Time.deltaTime;
+		curPower = Math.Min(curPower + powerRecover * Time.deltaTime, maxPowerAmount);
 		UpdatePowerUI();
 	}
 
 	void UpdatePowerUI()
 	{
+		if (curPower < 0 || curPower > maxPowerAmount)
+		{
+			Debug.LogError($"Power Add wrong curPower {curPower} and maxPowerAmount {maxPowerAmount}");
+		}
 		PlayerEnergy.PlayerEnergyInstance.UpdateBar(curPower, curPower / maxPowerAmount);
 	}
 
@@ -173,6 +177,7 @@ public class RoleController : MonoBehaviour
 		if (curPower < attackCost)
 		{
 			Debug.Log("Role当前能量不够释放攻击技能");
+			return;
 		}
 		curPower -= attackCost;
 		UpdatePowerUI();
