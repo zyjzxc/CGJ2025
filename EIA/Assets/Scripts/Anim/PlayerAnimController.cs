@@ -21,8 +21,8 @@ public class PlayerAnimController : MonoBehaviour
         if (_slowMotionCoroutine != null)
         {
             StopCoroutine(_slowMotionCoroutine);
-            Time.timeScale = 1.0f;
         }
+        Time.timeScale = 1.0f;
         //Hit();
     }
 

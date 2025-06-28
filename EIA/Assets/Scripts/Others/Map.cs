@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpatterArea
 {
@@ -70,7 +71,7 @@ public class Map : MonoBehaviour
     public void SpatterOnMap(Vector3 pos, float radius)
     {
         SpatterAreas.Add(new SpatterArea { Position = pos, radius = radius });
-        CurrSpatterAreaSize = GetTotalSpatterAreaSize();
+        CurrSpatterAreaSize = CalculateArea(SpatterAreas);
 
         List<Bullet> needClear = new();
 
@@ -93,69 +94,97 @@ public class Map : MonoBehaviour
         // render?
     }
 
-    private float GetTotalSpatterAreaSize()
+    private static float CalculateArea(IEnumerable<SpatterArea> areas)
     {
-        var areas = SpatterAreas;
-        if (areas.Count == 0)
-            return 0f;
-
-        float totalArea = 0f;
-        int n = areas.Count;
-        bool[] processed = new bool[n];
-
-        // 按半径降序排序
-        List<int> indices = new List<int>();
-        for (int i = 0; i < n; i++)
-            indices.Add(i);
-        indices.Sort((a, b) => areas[b].radius.CompareTo(areas[a].radius));
-
-        // 处理每个圆
-        for (int i = 0; i < n; i++)
+        if (areas == null) return 0;
+        
+        // 获取包围盒和有效圆列表
+        var validAreas = new List<SpatterArea>();
+        Bounds bounds = GetBoundingBox(areas, validAreas);
+        
+        if (validAreas.Count == 0) return 0f;
+        if (validAreas.Count == 1) return Mathf.PI * validAreas[0].radius * validAreas[0].radius;
+        
+        // 蒙特卡洛采样
+        int samples = CalculateSampleCount(validAreas);
+        int hits = 0;
+        
+        for (int i = 0; i < samples; i++)
         {
-            int idx = indices[i];
-            if (processed[idx]) continue;
-
-            float area = Mathf.PI * areas[idx].radius * areas[idx].radius;
-            processed[idx] = true;
-
-            // 减去与已处理圆的重叠部分
-            for (int j = 0; j < i; j++)
+            Vector2 randomPoint = GetRandomPoint(bounds);
+            if (IsPointInAnyCircle(randomPoint, validAreas))
             {
-                int prevIdx = indices[j];
-                if (!processed[prevIdx]) continue;
-
-                float overlap = CalculateOverlapArea(areas[idx].Center, areas[idx].radius, areas[prevIdx].Center,
-                    areas[prevIdx].radius);
-                area -= overlap;
+                hits++;
             }
-
-            totalArea += area;
         }
         
-        return totalArea;
+        // 计算总面积
+        float boundsArea = bounds.size.x * bounds.size.y;
+        return boundsArea * (hits / (float)samples);
     }
 
-    // 计算两个圆的重叠面积
-    private float CalculateOverlapArea(Vector2 c1, float r1, Vector2 c2, float r2)
+    // 动态计算采样次数（基于圆的大小和数量）
+    private static int CalculateSampleCount(List<SpatterArea> areas)
     {
-        float d = Vector2.Distance(c1, c2);
+        float totalPotentialArea = 0f;
+        foreach (var area in areas)
+        {
+            totalPotentialArea += Mathf.PI * area.radius * area.radius;
+        }
+        
+        // 基础采样数 + 根据总面积动态增加
+        return Mathf.Clamp(10000 + (int)(totalPotentialArea * 0.1f), 5000, 50000);
+    }
 
-        // 圆不相交
-        if (d >= r1 + r2)
-            return 0f;
+    // 创建包含所有圆的包围盒
+    private static Bounds GetBoundingBox(IEnumerable<SpatterArea> areas, List<SpatterArea> validAreas)
+    {
+        var bounds = new Bounds();
+        bool first = true;
+        
+        foreach (var area in areas)
+        {
+            if (area == null || area.radius <= 0) continue;
+            
+            validAreas.Add(area);
+            var center = area.Center;
+            float r = area.radius;
+            
+            if (first)
+            {
+                bounds = new Bounds(center, Vector2.zero);
+                bounds.Expand(2 * r);
+                first = false;
+            }
+            else
+            {
+                bounds.Encapsulate(new Vector2(center.x - r, center.y - r));
+                bounds.Encapsulate(new Vector2(center.x + r, center.y + r));
+            }
+        }
+        return bounds;
+    }
 
-        // 一个圆完全在另一个圆内
-        if (d <= Mathf.Abs(r1 - r2))
-            return Mathf.PI * Mathf.Min(r1, r2) * Mathf.Min(r1, r2);
+    // 生成包围盒内的随机点
+    private static Vector2 GetRandomPoint(Bounds bounds)
+    {
+        return new Vector2(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y)
+        );
+    }
 
-        // 部分重叠
-        float a1 = 2 * Mathf.Acos(Mathf.Max(-1f, Mathf.Min(1f, (r1 * r1 + d * d - r2 * r2) / (2 * r1 * d))));
-        float a2 = 2 * Mathf.Acos(Mathf.Max(-1f, Mathf.Min(1f, (r2 * r2 + d * d - r1 * r1) / (2 * r2 * d))));
-
-        float segment1 = 0.5f * a1 * r1 * r1 - 0.5f * r1 * r1 * Mathf.Sin(a1);
-        float segment2 = 0.5f * a2 * r2 * r2 - 0.5f * r2 * r2 * Mathf.Sin(a2);
-
-        return segment1 + segment2;
+    // 检查点是否在任一圆内
+    private static bool IsPointInAnyCircle(Vector2 point, List<SpatterArea> areas)
+    {
+        foreach (var area in areas)
+        {
+            if (Vector2.Distance(point, area.Center) <= area.radius)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public bool IsOutSide(Vector3 pos)
