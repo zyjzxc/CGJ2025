@@ -58,9 +58,9 @@ public class PlayerHealth : MonoBehaviour
             //TODO: some vfx
             if (roleMat == null)
             {
-                roleMat = RoleController.Instance.GetComponent<Renderer>().sharedMaterial;
+                roleMat = RoleController.Instance.GetComponentInChildren<Renderer>()?.sharedMaterial;
             }
-            roleMat.SetColor("_BaseColor", Color.Lerp(Color.white, 
+            roleMat?.SetColor("_BaseColor", Color.Lerp(Color.white, 
                 new Color(1, 1, 1, 0), InvincibleTime * 6 - (int)(InvincibleTime * 6)));
         }
     }

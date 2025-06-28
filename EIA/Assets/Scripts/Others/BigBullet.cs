@@ -59,7 +59,8 @@ public class BigBullet : Bullet
                 CurrIdleTimer = Random.Range(0.0f, 0.5f);
                 IdleTimer = Mathf.Max(Random.Range(IdleTimer - 0.5f, IdleTimer + 0.5f), 1.5f);
                 // TODO: Some ready to run vfx
-                Direction = (RoleController.Instance.transform.position - transform.position).normalized;
+                Direction = RoleController.Instance.transform.position - transform.position;
+                Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
                 TargetRunningPos = RoleController.Instance.transform.position + Direction * 8.0f;
             }
         }
