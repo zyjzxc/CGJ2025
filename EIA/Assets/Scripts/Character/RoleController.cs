@@ -271,8 +271,8 @@ public class RoleController : MonoBehaviour
 		if (bounceSuccessTag)
 		{
 			Map.MapInstance.SpatterOnMap(transform.position, attackRadius);
-			OnSpellBounceEnd();
-			playerAnimaController.Idle(true);
+			//OnSpellBounceEnd();
+			//layerAnimaController.Idle(true);
 		}
 	}
 
