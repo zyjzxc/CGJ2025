@@ -77,13 +77,13 @@ public class RoleController : MonoBehaviour
 	void Update()
 	{
 		var tempState = GetState();
-		if (tempState == AnimState.Idle || tempState == AnimState.Walk)
+		if (tempState == AnimState.Idle || tempState == AnimState.Walk  ||  tempState == AnimState.Attack)
 		{
 			// 先检查是否按下技能键
 			if (Input.GetMouseButtonDown(0))
 			{
 				CastSpellAttack();
-				return; // 按下技能键后不再处理其他逻辑
+				//return; // 按下技能键后不再处理其他逻辑
 			}
 
 			if (Input.GetMouseButtonDown(1))
