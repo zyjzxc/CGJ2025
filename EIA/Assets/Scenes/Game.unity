@@ -3072,7 +3072,7 @@ MonoBehaviour:
   sprintSpeed: 30
   sprintDistance: 5
   sprintCost: 1
-  powerRecover: 2
+  powerRecover: 1
   maxPowerAmount: 3
   bounceCost: 1.5
   checkRadius: 2
@@ -3720,7 +3720,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[0].MaxNumer
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
@@ -3730,7 +3730,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[1].MaxNumer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
@@ -4185,7 +4185,7 @@ PrefabInstance:
     - target: {fileID: 3499318073564980970, guid: 38b21c0d198fd434392d99167b4ba3b2,
         type: 3}
       propertyPath: MaxHealth
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3765932744173843402, guid: 38b21c0d198fd434392d99167b4ba3b2,
         type: 3}
