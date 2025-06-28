@@ -105,9 +105,9 @@ public class Bullet : MonoBehaviour, IBullet
         }
     }
 
-    public virtual void BounceBack()
+    public virtual bool BounceBack()
     {
-        
+		return false;
     }
 
     public virtual void Init()
@@ -176,7 +176,8 @@ public class Bullet : MonoBehaviour, IBullet
     public void Spatter(float radius)
     {
         Debug.Log($"{gameObject.name} spawn");
-        Map.MapInstance.SpatterOnMap(transform.position, radius);
+		RoleController.Instance.PlayEffect("fx_Attack", transform);
+		Map.MapInstance.SpatterOnMap(transform.position, radius);
         Disappear();
     }
 
