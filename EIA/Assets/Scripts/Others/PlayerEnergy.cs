@@ -14,11 +14,13 @@ public class PlayerEnergy : MonoBehaviour
 	
 	public static PlayerEnergy PlayerEnergyInstance;
 
-	private Material playerMat;
+	private Material roleMat;
 
 	public Color noEnergyColor;
 	
 	public Color energyColor;
+
+	private float shiningTime = 0;
 	
 	private void Awake()
 	{
@@ -30,11 +32,22 @@ public class PlayerEnergy : MonoBehaviour
         MaxEnergy = RoleController.Instance.maxPowerAmount;
         energySlider = GetComponent<Slider>();
         
-        playerMat = RoleController.Instance.GetComponentInChildren<Renderer>().sharedMaterial;
+        roleMat = RoleController.Instance.GetComponentInChildren<Renderer>().sharedMaterial;
     }
 
     void Update()
     {
+	    if (shiningTime > 0)
+	    {
+		    shiningTime -= Time.deltaTime;
+		    
+		    if (roleMat == null)
+		    {
+			    roleMat = RoleController.Instance.GetComponentInChildren<Renderer>()?.sharedMaterial;
+		    }
+		    roleMat?.SetColor("_BaseColor", Color.Lerp(energyColor, 
+			    noEnergyColor, shiningTime * 6 - (int)(shiningTime * 6)));
+	    }
     }
 
 	public void UpdateBar(float tempEnergy, float ratio)
@@ -43,7 +56,12 @@ public class PlayerEnergy : MonoBehaviour
 		energySlider.value = ratio;
 		
 		var c = UnityEngine.Color.Lerp(noEnergyColor, energyColor, ratio);
-		var alpha = playerMat.color.a;
-		playerMat.SetColor("_BaseColor", new Color(c.r, c.g, c.b, alpha));
+		var alpha = roleMat.color.a;
+		roleMat.SetColor("_BaseColor", new Color(c.r, c.g, c.b, alpha));
+	}
+
+	public void Shining()
+	{
+		shiningTime = 0.8f;
 	}
 }
