@@ -10,6 +10,9 @@ public class SliderSlotMarkController : MonoBehaviour
 
 	private RectTransform sliderRect;
 	private List<Image> markImages = new List<Image>();
+	private int colorProgressIndex = 0;
+	private float checkInterval = 0.3f; // 每隔 0.2 秒检查一次
+	private float checkTimer = 0f;
 
 	void Start()
 	{
@@ -38,9 +41,28 @@ public class SliderSlotMarkController : MonoBehaviour
 				markImages.Add(img);
 			}
 		}
-
+		colorProgressIndex = 0;
 		// 隐藏模板
 		slotMarkPrefab.gameObject.SetActive(false);
+	}
+
+	private void Update()
+	{
+		checkTimer += Time.deltaTime;
+
+		if (checkTimer >= checkInterval)
+		{
+			checkTimer = 0f; // 重置计时器
+
+			float cur = Map.MapInstance.CurrCleanAreaRation;
+
+			// 仅在 cur 超过时继续推进
+			while (colorProgressIndex < markPercents.Count && cur >= markPercents[colorProgressIndex])
+			{
+				SetSlotColor(colorProgressIndex, new Color32(132, 255, 132, 255));
+				colorProgressIndex++;
+			}
+		}
 	}
 
 	/// <summary>
