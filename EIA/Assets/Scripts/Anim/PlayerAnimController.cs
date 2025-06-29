@@ -102,19 +102,19 @@ public class PlayerAnimController : MonoBehaviour
     {
         // 保存原始时间缩放值
         float originalTimeScale = 1;
-        float originalFixedDeltaTime = Time.fixedDeltaTime;
+        //float originalFixedDeltaTime = Time.fixedDeltaTime;
         
         // 应用时间膨胀
         Time.timeScale = slowMotionScale;
         // 调整FixedDeltaTime以保持物理稳定性
-        Time.fixedDeltaTime = originalFixedDeltaTime * slowMotionScale;
+        //Time.fixedDeltaTime = originalFixedDeltaTime * slowMotionScale;
         
         // 等待指定的持续时间
         yield return new WaitForSecondsRealtime(duration); // 使用Realtime避免受Time.timeScale影响
         
         // 恢复正常时间
         Time.timeScale = originalTimeScale;
-        Time.fixedDeltaTime = originalFixedDeltaTime;
+        //Time.fixedDeltaTime = originalFixedDeltaTime;
         
         _slowMotionCoroutine = null;
     }

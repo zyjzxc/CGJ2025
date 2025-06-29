@@ -243,6 +243,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1040807861238276333, guid: 38b21c0d198fd434392d99167b4ba3b2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8.934814
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040807861238276333, guid: 38b21c0d198fd434392d99167b4ba3b2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -970
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040807861238276333, guid: 38b21c0d198fd434392d99167b4ba3b2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26
+      objectReference: {fileID: 0}
     - target: {fileID: 2305650767155510157, guid: 38b21c0d198fd434392d99167b4ba3b2,
         type: 3}
       propertyPath: m_Name
@@ -6471,9 +6486,9 @@ MonoBehaviour:
   maxPowerAmount: 3
   bounceCost: 1.5
   checkRadius: 2
+  bounceRewardTime: 0.5
   attackCost: 10
   attackRadius: 2
-  bounceMoveTag: 0
   bounceLabel: 0
 --- !u!143 &1481314109
 CharacterController:
