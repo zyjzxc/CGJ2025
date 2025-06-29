@@ -73,7 +73,7 @@ public class GreenAreaMgr : MonoBehaviour
         if (isGreeningAll)
         {
             var circle =  circles[circles.Count-1];
-            circle.radius += 0.04f; 
+            circle.radius += 0.1f; 
             circles[circles.Count-1] = circle;
         }
         UpdateFloorMaterial();

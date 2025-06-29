@@ -40,13 +40,13 @@ public class BigBullet : Bullet
         if (BulletState == BulletState.BeBounceBack)
         {
             float speed = (BounceBackPosition - transform.position).magnitude;
-            if (speed < 0.2f)
+            Vector3 direction = BounceBackPosition - transform.position;
+            if (speed < 0.2f || speed > 3.5f)
             {
                 Spatter(SpatterRadius);
             }
             else
             {
-                Vector3 direction = BounceBackPosition - transform.position;
                 transform.Translate(direction * (speed * Speed / 3 * Time.deltaTime), Space.World);
             }
         }
