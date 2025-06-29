@@ -73,7 +73,8 @@ public class Bullet : MonoBehaviour, IBullet
     // Update is called once per frame
     void Update()
     {
-        Tick();
+        if(!GameContext.GameFinish)
+            Tick();
     }
 
     public virtual void Tick()

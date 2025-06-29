@@ -77,6 +77,9 @@ public class RoleController : MonoBehaviour
 
 	void Update()
 	{
+		if(GameContext.GameFinish)
+			return;
+		
 		var tempState = GetState();
 		if (tempState == AnimState.Idle || tempState == AnimState.Walk  ||  tempState == AnimState.Attack)
 		{

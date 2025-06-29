@@ -63,6 +63,8 @@ public class PlayerHealth : MonoBehaviour
             roleMat?.SetColor("_BaseColor", Color.Lerp(Color.white, 
                 new Color(1, 1, 1, 0), InvincibleTime * 6 - (int)(InvincibleTime * 6)));
         }
+        
+        transform.LookAt(Camera.main.transform);
     }
 
     public bool TakeDamage(int damage, GameObject src = null)

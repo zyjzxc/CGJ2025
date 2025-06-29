@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6647469174077631852}
   - component: {fileID: 7873894485259314750}
   - component: {fileID: 5205799037955033090}
-  - component: {fileID: -1560360683683200730}
+  - component: {fileID: 3259722736072100710}
   m_Layer: 7
   m_Name: Bullet0
   m_TagString: Untagged
@@ -126,7 +126,7 @@ MonoBehaviour:
   SpeedDecraseSpeed: 1
   ColliderSettings: {fileID: 0}
   ParentBulletEmitter: {fileID: 0}
---- !u!54 &-1560360683683200730
+--- !u!54 &3259722736072100710
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,7 +135,7 @@ Rigidbody:
   m_GameObject: {fileID: 3522141670420392545}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -145,11 +145,11 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 4
   m_CollisionDetection: 0

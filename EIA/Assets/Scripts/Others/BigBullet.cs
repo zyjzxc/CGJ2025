@@ -14,7 +14,7 @@ public class BigBullet : Bullet
 
     private Vector3 TargetRunningPos;
 
-    private Material mat;
+    protected Material mat;
     
     public override bool BounceBack()
     {
