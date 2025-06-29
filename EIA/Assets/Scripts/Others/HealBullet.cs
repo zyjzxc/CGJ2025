@@ -10,7 +10,7 @@ public class HealBullet : BigBullet
             return false;
         
         BulletState = BulletState.BeBounceBack;
-        
+        AudioMgr.Instance.PlaySFX("healing");
         PlayerHealth.PlayerHealthInstance.Heal(100);
         Disappear();
         return true;
