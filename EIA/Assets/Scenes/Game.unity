@@ -6371,7 +6371,7 @@ MonoBehaviour:
   audioGroups: []
   initialSfxPoolSize: 10
   bgmFadeTime: 1
-  currentBGM: {fileID: 0}
+  currentBGM: {fileID: 8300000, guid: 28119e5c0d088214d8814cc99fbdaefe, type: 3}
 --- !u!1 &1479100257
 GameObject:
   m_ObjectHideFlags: 0
@@ -6510,7 +6510,7 @@ MonoBehaviour:
   moveSpeed: 5
   turnSmoothing: 0.1
   sprintSpeed: 30
-  sprintDistance: 5
+  sprintDistance: 8
   sprintCost: 1
   powerRecover: 1
   maxPowerAmount: 3
@@ -7239,7 +7239,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[2].BulletSettings.Array.data[1].MaxNumer
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
@@ -7259,7 +7259,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[3].BulletSettings.Array.data[1].MaxNumer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
