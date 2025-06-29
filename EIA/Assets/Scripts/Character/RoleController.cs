@@ -281,7 +281,8 @@ public class RoleController : MonoBehaviour
 		var effectPrefab = Resources.Load<GameObject>($"Effect/{effectName}");
 		Debug.Log($"Play Effect Assets/Resources/Effect/{effectName}");
 		var currentEffect = Instantiate(effectPrefab, tempTransform.position, tempTransform.rotation);
-		currentEffect.transform.SetParent(tempTransform);
+		currentEffect.transform.position = tempTransform.position;
+		currentEffect.transform.rotation = tempTransform.rotation;
 
 		float effectDuration = currentEffect.GetComponent<ParticleSystem>()?.main.duration ?? 5f;
 		Destroy(currentEffect, effectDuration);
