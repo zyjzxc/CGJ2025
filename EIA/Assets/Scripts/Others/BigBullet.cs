@@ -15,8 +15,6 @@ public class BigBullet : Bullet
     private Vector3 TargetRunningPos;
 
     protected Material mat;
-
-    public AudioClip boom;
     
     public override bool BounceBack()
     {
@@ -73,6 +71,7 @@ public class BigBullet : Bullet
                 Direction = RoleController.Instance.transform.position - transform.position;
                 Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
                 TargetRunningPos = RoleController.Instance.transform.position + Direction * 2.0f;
+                AudioMgr.Instance.PlayVoice("warning");
             }
         }
         

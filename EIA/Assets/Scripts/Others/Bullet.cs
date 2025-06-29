@@ -180,6 +180,7 @@ public class Bullet : MonoBehaviour, IBullet
         Debug.Log($"{gameObject.name} spawn");
 		RoleController.Instance.PlayEffect("fx_Attack", transform);
 		Map.MapInstance.SpatterOnMap(transform.position, radius);
+        AudioMgr.Instance.PlayVoice("boom");
         Disappear();
     }
 
