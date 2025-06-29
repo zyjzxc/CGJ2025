@@ -282,6 +282,7 @@ public class RoleController : MonoBehaviour
 		curPower -= bounceCost;
 		UpdatePowerUI();
 		RoleChangeState(RoleState.CastSpellUncontrollable);
+		AudioMgr.Instance.PlayVoice("bouncecast");
 		playerAnimaController.Parry();
 	}
 
