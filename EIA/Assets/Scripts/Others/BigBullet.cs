@@ -68,7 +68,7 @@ public class BigBullet : Bullet
             if (CurrIdleTimer >= IdleTimer * 0.8 && !played)
             {
                 played = true;
-                AudioMgr.Instance.PlayVoice("warning");
+                AudioMgr.Instance.PlaySFX("warning", volume: 0.5f);
             }
             
             if (CurrIdleTimer >= IdleTimer)
