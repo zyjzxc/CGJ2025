@@ -104,8 +104,16 @@ public class BulletEmitter : MonoBehaviour
     public Vector3 RandomBulletStartPos()
     {
         float theta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
-        
-        return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter + Vector3.up * Map.MapInstance.MapHeight;
+
+        float maxHight = 6.5f;
+        float maxWidth = 9.5f;
+        var pos = new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)) * m_MapRadius + m_MapCenter +
+                  Vector3.up * Map.MapInstance.MapHeight;
+        pos.x = Mathf.Min(maxWidth, pos.x);
+        pos.x = Mathf.Max(-maxWidth, pos.x);
+        pos.z = Mathf.Min(maxHight, pos.z);
+        pos.z = Mathf.Max(-maxHight, pos.z);
+        return pos;
     }
 
     public Vector3 RandomBulletStartDir(Vector3 startPos)
