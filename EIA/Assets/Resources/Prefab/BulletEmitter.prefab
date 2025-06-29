@@ -72,8 +72,12 @@ MonoBehaviour:
       MaxNumer: 10
     - BulletPrefab: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
         type: 3}
-      EmitRate: 90
+      EmitRate: 100
       MaxNumer: 4
+    - BulletPrefab: {fileID: 8306342215177998043, guid: 860d57cb29e80a3449fcf78bf40b5cec,
+        type: 3}
+      EmitRate: 180
+      MaxNumer: 1
     StageChangeCondition: 0.4
   - BulletSettings:
     - BulletPrefab: {fileID: 5205799037955033090, guid: f45bcad79bc7d774e85641b514eaeaf8,
@@ -82,7 +86,7 @@ MonoBehaviour:
       MaxNumer: 30
     - BulletPrefab: {fileID: 5420564042690645285, guid: 2a9b97eb8d7830f4995389828f1b9f26,
         type: 3}
-      EmitRate: 60
+      EmitRate: 90
       MaxNumer: 8
     - BulletPrefab: {fileID: 8306342215177998043, guid: 860d57cb29e80a3449fcf78bf40b5cec,
         type: 3}
