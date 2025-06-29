@@ -33,6 +33,12 @@ public class HealBullet : BigBullet
                 Init();
                 BulletState = BulletState.Running;
             }
+            if (mat == null)
+            {
+                mat = new Material(GetComponent<Renderer>().sharedMaterial);
+                GetComponent<Renderer>().SetSharedMaterials(new List<Material>(){mat});
+            }
+            mat.SetColor("_BaseColor", Color.Lerp(Color.green, Color.white, CurrIdleTimer / IdleTimer));
         }
         
         else if (BulletState == BulletState.Running)

@@ -54,6 +54,9 @@ public class BulletEmitter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameContext.GameFinish)
+            return;
+        
         foreach (BulletSetting b in BulletSettings)
         {
             if (Bullets[(int)b.BulletPrefab.GetBulletType()].Count < b.MaxNumer)

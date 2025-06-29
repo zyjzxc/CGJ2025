@@ -25,4 +25,12 @@ public static class GameContext
             return Map.MapInstance.CurrSpatterAreaSize >= Map.MapInstance.MapSize * 0.95f;
         }
     }
+
+    public static bool GameFinish
+    {
+        get
+        {
+            return GameOver || GameWin;
+        }
+    }
 }
