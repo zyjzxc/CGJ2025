@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 1168024467}
   - component: {fileID: 1168024466}
   - component: {fileID: 1168024465}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AirWall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6180,7 +6180,7 @@ GameObject:
   - component: {fileID: 1479100261}
   - component: {fileID: 1479100260}
   - component: {fileID: 1479100259}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AirWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6329,7 +6329,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -6488,7 +6488,7 @@ GameObject:
   - component: {fileID: 1591760295}
   - component: {fileID: 1591760294}
   - component: {fileID: 1591760293}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AirWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6667,7 +6667,7 @@ GameObject:
   - component: {fileID: 2027004447}
   - component: {fileID: 2027004446}
   - component: {fileID: 2027004445}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AirWall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
