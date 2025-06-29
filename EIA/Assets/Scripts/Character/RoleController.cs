@@ -243,6 +243,7 @@ public class RoleController : MonoBehaviour
 		UpdatePowerUI();
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(false);
 		RoleChangeState(RoleState.CastSpellUncontrollable);
+		AudioMgr.Instance.PlayVoice("dodge");
 		playerAnimaController.Dodge();
 		Debug.Log("Role’˝‘⁄…¡±‹");
 
@@ -281,6 +282,7 @@ public class RoleController : MonoBehaviour
 		curPower -= bounceCost;
 		UpdatePowerUI();
 		RoleChangeState(RoleState.CastSpellUncontrollable);
+		AudioMgr.Instance.PlayVoice("bouncecast");
 		playerAnimaController.Parry();
 	}
 

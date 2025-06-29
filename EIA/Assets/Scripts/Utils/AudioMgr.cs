@@ -307,6 +307,18 @@ public class AudioMgr : MonoBehaviour
         return source;
     }
 
+    public AudioSource PlaySFX(string name, Vector3 position = default, float volume = 1f, float pitch = 1f,
+        bool is3D = false)
+    {
+        if (!audioClips.ContainsKey(name))
+        {
+            var clip = Resources.Load<AudioClip>($"Sound/{name}");
+            audioClips.Add(name, clip);
+        }
+
+        return PlaySFX(audioClips[name], position, volume, pitch, is3D);
+    }
+
     // 播放语音
     public void PlayVoice(AudioClip clip, bool interrupt = true)
     {
@@ -329,7 +341,7 @@ public class AudioMgr : MonoBehaviour
     }
 
     private Dictionary<string, AudioClip> audioClips = new();
-    public void PlayVoice(string name, bool interrupt = true)
+    public void PlayVoice(string name, float volume = 1.0f, bool interrupt = true)
     {
         if (!audioClips.ContainsKey(name))
         {

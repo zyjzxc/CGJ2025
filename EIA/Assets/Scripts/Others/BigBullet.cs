@@ -15,6 +15,8 @@ public class BigBullet : Bullet
     private Vector3 TargetRunningPos;
 
     protected Material mat;
+
+    private bool played = false;
     
     public override bool BounceBack()
     {
@@ -62,6 +64,12 @@ public class BigBullet : Bullet
                 GetComponent<Renderer>().SetSharedMaterials(new List<Material>(){mat});
             }
             mat.SetColor("_BaseColor", Color.Lerp(Color.white, Color.red, CurrIdleTimer / IdleTimer));
+
+            if (CurrIdleTimer >= IdleTimer * 0.8 && !played)
+            {
+                played = true;
+                AudioMgr.Instance.PlaySFX("warning", volume: 0.5f);
+            }
             
             if (CurrIdleTimer >= IdleTimer)
             {
@@ -71,7 +79,7 @@ public class BigBullet : Bullet
                 Direction = RoleController.Instance.transform.position - transform.position;
                 Direction = new Vector3(Direction.x, 0, Direction.z).normalized;
                 TargetRunningPos = RoleController.Instance.transform.position + Direction * 2.0f;
-                AudioMgr.Instance.PlayVoice("warning");
+                played = false;
             }
         }
         

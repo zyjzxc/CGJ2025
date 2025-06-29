@@ -125,5 +125,5 @@ MonoBehaviour:
   SpeedDecraseSpeed: 0
   ColliderSettings: {fileID: 0}
   ParentBulletEmitter: {fileID: 0}
-  IdleTimer: 2
+  IdleTimer: 4
   SpatterRadius: 0
