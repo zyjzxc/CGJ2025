@@ -118,5 +118,10 @@ public class PlayerAnimController : MonoBehaviour
         
         _slowMotionCoroutine = null;
     }
+
+    public void PlaySound(string name)
+    {
+        AudioMgr.Instance.PlaySFX(name);
+    }
     
 }
