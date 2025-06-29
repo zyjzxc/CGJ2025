@@ -11,7 +11,7 @@ public class HealBullet : BigBullet
         
         BulletState = BulletState.BeBounceBack;
         
-        PlayerHealth.PlayerHealthInstance.Heal(1);
+        PlayerHealth.PlayerHealthInstance.Heal(100);
         Disappear();
         return true;
     }
