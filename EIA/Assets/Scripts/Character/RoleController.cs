@@ -107,8 +107,6 @@ public class RoleController : MonoBehaviour
 			return;
 		
 		var tempState = GetState();
-		Debug.Log($"YKYK WANT TO KNOW ABOUT {tempState} And time {Time.realtimeSinceStartupAsDouble}");
-
 
 		if (roleState == RoleState.CastSpellUncontrollable)
 		{
@@ -221,6 +219,7 @@ public class RoleController : MonoBehaviour
 		if (curPower < attackCost)
 		{
 			Debug.Log("Role当前能量不够释放攻击技能");
+			PlayerEnergy.PlayerEnergyInstance.Shining();
 			return;
 		}
 		curPower -= attackCost;
@@ -236,6 +235,7 @@ public class RoleController : MonoBehaviour
 		if(curPower < sprintCost)
 		{
 			Debug.Log("Role当前能量不够释放冲刺技能");
+			PlayerEnergy.PlayerEnergyInstance.Shining();
 			return;
 		}
 		curPower = curPower-sprintCost;
@@ -275,6 +275,7 @@ public class RoleController : MonoBehaviour
 		if(curPower < bounceCost)
 		{
 			Debug.Log("Role当前能量不够释放弹反技能");
+			PlayerEnergy.PlayerEnergyInstance.Shining();
 			return;
 		}
 		curPower -= bounceCost;
