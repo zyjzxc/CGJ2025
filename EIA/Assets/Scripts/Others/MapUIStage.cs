@@ -59,20 +59,20 @@ public class SliderSlotMarkController : MonoBehaviour
 			// 仅在 cur 超过时继续推进
 			while (colorProgressIndex < markPercents.Count && cur >= markPercents[colorProgressIndex])
 			{
-				SetSlotColor(colorProgressIndex, new Color32(132, 255, 132, 255));
+				HideSlotMark(colorProgressIndex);
 				colorProgressIndex++;
 			}
 		}
 	}
 
 	/// <summary>
-	/// 外部调用：设置指定索引标记的颜色
+	/// 外部调用：隐藏指定索引标记
 	/// </summary>
-	public void SetSlotColor(int index, Color color)
+	private void HideSlotMark(int index)
 	{
 		if (index >= 0 && index < markImages.Count)
 		{
-			markImages[index].color = color;
+			markImages[index].gameObject.SetActive(false);
 		}
 		else
 		{
