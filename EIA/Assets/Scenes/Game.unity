@@ -7031,7 +7031,7 @@ PrefabInstance:
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
       propertyPath: BulletEmitStageConfigs.Array.data[0].BulletSettings.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2210388404354365705, guid: 6ee69009dd1cb334794d1bacedb751e3,
         type: 3}
