@@ -72,6 +72,7 @@ public class Map : MonoBehaviour
     {
         SpatterAreas.Add(new SpatterArea { Position = pos, radius = radius });
         CurrSpatterAreaSize = CalculateArea(SpatterAreas);
+		Vector2 targetPos = new Vector2(pos.x, pos.z);
 
         List<Bullet> needClear = new();
 
@@ -79,7 +80,8 @@ public class Map : MonoBehaviour
         {
             foreach (var bullet in bulletList)
             {
-                if ((bullet.transform.position - pos).magnitude < radius && bullet.BulletState != BulletState.BeBounceBack && bullet.GetBulletType() == BulletType.Small)
+				Vector2 bulletPos = new Vector2(bullet.transform.position.x, bullet.transform.position.z);
+                if ((bulletPos - targetPos).magnitude < radius && bullet.BulletState != BulletState.BeBounceBack && bullet.GetBulletType() == BulletType.Small)
                 {
                     needClear.Add(bullet);
                 }
@@ -89,7 +91,7 @@ public class Map : MonoBehaviour
         foreach (var bullet in needClear)
             bullet.Disappear();
         
-        GreenAreaMgr.Instance.AddCircle(new Vector2(pos.x, pos.z), radius);
+        GreenAreaMgr.Instance.AddCircle(targetPos, radius);
 
         // render?
     }
