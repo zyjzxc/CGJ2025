@@ -55,9 +55,9 @@ public class PlayerEnergy : MonoBehaviour
 		curEnergy = tempEnergy;
 		energySlider.value = ratio;
 		
-		var c = UnityEngine.Color.Lerp(noEnergyColor, energyColor, ratio);
+		/*var c = UnityEngine.Color.Lerp(noEnergyColor, energyColor, ratio);
 		var alpha = roleMat.color.a;
-		roleMat.SetColor("_BaseColor", new Color(c.r, c.g, c.b, alpha));
+		roleMat.SetColor("_BaseColor", new Color(c.r, c.g, c.b, alpha));*/
 	}
 
 	public void Shining()
