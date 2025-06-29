@@ -328,6 +328,18 @@ public class AudioMgr : MonoBehaviour
         voiceGroup.source.Play();
     }
 
+    private Dictionary<string, AudioClip> audioClips = new();
+    public void PlayVoice(string name, bool interrupt = true)
+    {
+        if (!audioClips.ContainsKey(name))
+        {
+            var clip = Resources.Load<AudioClip>($"Sound/{name}");
+            audioClips.Add(name, clip);
+        }
+        
+        PlayVoice(audioClips[name], interrupt);
+    }
+
     // 播放环境音
     public void PlayAmbient(AudioClip clip, bool loop = true)
     {

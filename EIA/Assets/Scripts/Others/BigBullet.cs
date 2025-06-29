@@ -15,6 +15,8 @@ public class BigBullet : Bullet
     private Vector3 TargetRunningPos;
 
     protected Material mat;
+
+    public AudioClip boom;
     
     public override bool BounceBack()
     {
@@ -29,6 +31,8 @@ public class BigBullet : Bullet
             GetComponent<Renderer>().SetSharedMaterials(new List<Material>(){mat});
         }
         mat.SetColor("_BaseColor", Color.green);
+        
+        AudioMgr.Instance.PlayVoice("bounce");
         
         var randomTheta = Mathf.Deg2Rad * UnityEngine.Random.Range(0, 360);
         BounceBackPosition = transform.position + 3.0f * new Vector3(Mathf.Cos(randomTheta), 0, Mathf.Sin(randomTheta));
