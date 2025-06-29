@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -29,10 +30,13 @@ public class PlayerHealth : MonoBehaviour
 
     private Material roleMat;
 
-    private void Awake()
+	private RectTransform uiElement;
+
+	private void Awake()
     {
         PlayerHealthInstance = this;
-    }
+		uiElement = GetComponent<RectTransform>();
+	}
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +58,7 @@ public class PlayerHealth : MonoBehaviour
         if (InvincibleTime >= 0)
         {
             InvincibleTime -= Time.deltaTime;
-
+				
             //TODO: some vfx
             if (roleMat == null)
             {
@@ -62,10 +66,11 @@ public class PlayerHealth : MonoBehaviour
             }
             roleMat?.SetColor("_BaseColor", Color.Lerp(Color.white, 
                 new Color(1, 1, 1, 0), InvincibleTime * 6 - (int)(InvincibleTime * 6)));
-        }
-        
-        transform.LookAt(Camera.main.transform);
-    }
+		}
+
+		uiElement.forward = Camera.main.transform.forward;
+		uiElement.position = RoleController.Instance.transform.position + new Vector3(-0.5f, 2f, 0);
+	}
 
     public bool TakeDamage(int damage, GameObject src = null)
     {

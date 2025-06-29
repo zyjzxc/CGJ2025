@@ -20,7 +20,7 @@ public class WinLoseTitle : MonoBehaviour
     {
         if (GameContext.GameWin)
         {
-            titleText.text = "Liven All!";
+            titleText.text = "Now. Everything is Alive.";
             titleText.gameObject.SetActive(true);
             
             if(firstWin)
