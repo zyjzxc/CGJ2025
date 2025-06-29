@@ -13,6 +13,13 @@ public class PlayerEnergy : MonoBehaviour
     private Slider energySlider;
 	
 	public static PlayerEnergy PlayerEnergyInstance;
+
+	private Material playerMat;
+
+	public Color noEnergyColor;
+	
+	public Color energyColor;
+	
 	private void Awake()
 	{
 		PlayerEnergyInstance = this;
@@ -22,6 +29,8 @@ public class PlayerEnergy : MonoBehaviour
     {
         MaxEnergy = RoleController.Instance.maxPowerAmount;
         energySlider = GetComponent<Slider>();
+        
+        playerMat = RoleController.Instance.GetComponentInChildren<Renderer>().sharedMaterial;
     }
 
     void Update()
@@ -32,5 +41,9 @@ public class PlayerEnergy : MonoBehaviour
 	{
 		curEnergy = tempEnergy;
 		energySlider.value = ratio;
+		
+		var c = UnityEngine.Color.Lerp(noEnergyColor, energyColor, ratio);
+		var alpha = playerMat.color.a;
+		playerMat.SetColor("_BaseColor", new Color(c.r, c.g, c.b, alpha));
 	}
 }
