@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class SpellController : MonoBehaviour
@@ -24,19 +25,23 @@ public class SpellController : MonoBehaviour
 	//冲刺结束事件
 	public void OnSpellSprintEnd()
 	{
-		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(true);
+		RoleController.Instance.SpellSprintEnd();
 	}
 
 	//动画开启弹反事件
 	public void OnSpellBounceEffect()
 	{
-		RoleController.Instance.bounceLabel = true;
-		RoleController.Instance.bounceMoveTag = true;
+		RoleController.Instance.SpellBounceEffect();
 	}
 
 	//动画结束弹反事件
 	public void OnSpellBounceEnd()
 	{
-		RoleController.Instance.bounceLabel = false;
+		RoleController.Instance.SpellBounceEnd();
+	}
+
+	public void OnSpellSpellHitEnd()
+	{
+		RoleController.Instance.OnSpellHitEnd();
 	}
 }

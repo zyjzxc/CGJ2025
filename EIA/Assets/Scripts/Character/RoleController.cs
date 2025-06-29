@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public enum AnimState
 {
@@ -14,6 +15,14 @@ public enum AnimState
 	None
 }
 
+public enum RoleState 
+{
+	None,
+	Idle,
+	CastSpellUncontrollable,
+	CastSpellMoveable,
+	CastSpellStopable
+}
 
 [RequireComponent(typeof(CharacterController))]
 public class RoleController : MonoBehaviour
@@ -34,6 +43,7 @@ public class RoleController : MonoBehaviour
 	[Header("弹反设置")]
 	public float bounceCost = 3.0f;
 	public float checkRadius = 3f; // 弹反子弹检测半径
+	public float bounceRewardTime = 0.5f; //弹反成功无敌帧
 
 	[Header("攻击设置")]
 	public float attackCost = 3.0f;
@@ -46,12 +56,12 @@ public class RoleController : MonoBehaviour
 	} = 0;
 
 	private float sprinteMovement;
-	public bool bounceMoveTag;
 	public bool bounceLabel = false; //弹反标签
 	private CharacterController controller;
 	private Vector3 moveDirection;
 	private PlayerAnimController playerAnimaController;          // 可选：用于动画控制
 	private float turnVelocity;         // 转向速度缓存
+	private RoleState roleState = RoleState.Idle;
 
 	public Dictionary<string, AnimState> AnimStateMap = new Dictionary<string, AnimState>
 	{
@@ -62,11 +72,27 @@ public class RoleController : MonoBehaviour
 		{ "parry" ,AnimState.Parry},
 		{ "attack",AnimState.Attack}
 	};
+	public Dictionary<RoleState, List<RoleState>> RoleStateMap = new Dictionary<RoleState, List<RoleState>> 
+	{
+		{RoleState.Idle, new List<RoleState> {RoleState.CastSpellUncontrollable} },
+		{RoleState.CastSpellUncontrollable, new List<RoleState> {RoleState.CastSpellMoveable, RoleState.Idle } },
+		{RoleState.CastSpellMoveable, new List<RoleState> {RoleState.Idle, RoleState.CastSpellUncontrollable} },
+	};
 	public static RoleController Instance;
+
+	public void RoleChangeState(RoleState targetState)
+	{
+		if (RoleStateMap[roleState].Contains(targetState) == false)
+		{
+			return;
+		}
+		roleState = targetState;
+	}
 
 	private void Awake()
 	{
 		Instance = this;
+		Time.fixedDeltaTime = 0.02f;
 	}
 
 	void Start()
@@ -75,51 +101,57 @@ public class RoleController : MonoBehaviour
 		playerAnimaController = transform.Find("Player_Tpose").GetComponent<PlayerAnimController>();
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		if(GameContext.GameFinish)
 			return;
 		
 		var tempState = GetState();
-		if (tempState == AnimState.Idle || tempState == AnimState.Walk  ||  tempState == AnimState.Attack)
-		{
-			// 先检查是否按下技能键
-			if (Input.GetMouseButtonDown(0))
-			{
-				CastSpellAttack();
-				//return; // 按下技能键后不再处理其他逻辑
-			}
+		Debug.Log($"YKYK WANT TO KNOW ABOUT {tempState} And time {Time.realtimeSinceStartupAsDouble}");
 
-			if (Input.GetMouseButtonDown(1))
-			{
-				CastSpellBounce();
-				return; // 按下技能键后不再处理其他逻辑
-			}
 
-			if (Input.GetKeyDown(KeyCode.Space)) // 空格键
-			{
-				CastSpellSprint();
-				return;
-			}
-		}
-		else if(tempState == AnimState.Sprint)
+		if (roleState == RoleState.CastSpellUncontrollable)
 		{
-			HandleSpelSprinting();
+			if(tempState == AnimState.Sprint)
+			{
+				HandleSpelSprinting();
+			}
 			return;
 		}
-		else if(tempState == AnimState.Parry)
+		else if(roleState == RoleState.CastSpellMoveable)
 		{
-			if (bounceMoveTag == false)
-			{
-				return;
-			}
-			if (bounceLabel == true) 
-			{
+            if (tempState == AnimState.Parry)
+            {
 				HandleSpellBouncing();
-			}
+            }
+            HandleInput(true);
 		}
-		UpdatePower();
+		else if(roleState == RoleState.Idle)
+		{
+			UpdatePower();
+			HandleInput(false);
+		}
+	}
+
+	void HandleInput(bool onlyMove)
+	{
 		HandleMovement();
+		if (onlyMove)
+		{
+			return;
+		}
+		if (Input.GetMouseButton(0))
+		{
+			CastSpellBounce();
+		}
+		else if (Input.GetKey(KeyCode.Space))
+		{
+			CastSpellSprint();
+		}
+		else if (Input.GetMouseButton(1))
+		{
+			CastSpellAttack();
+		}
 	}
 
 	void HandleMovement()
@@ -193,6 +225,7 @@ public class RoleController : MonoBehaviour
 		}
 		curPower -= attackCost;
 		UpdatePowerUI();
+		RoleChangeState(RoleState.CastSpellUncontrollable);
 		playerAnimaController.Attack();
 		Debug.Log("Role正在攻击");
 
@@ -209,8 +242,9 @@ public class RoleController : MonoBehaviour
 		sprinteMovement = sprintDistance;
 		UpdatePowerUI();
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(false);
-		Debug.Log("Role正在闪避");
+		RoleChangeState(RoleState.CastSpellUncontrollable);
 		playerAnimaController.Dodge();
+		Debug.Log("Role正在闪避");
 
 	}
 
@@ -225,13 +259,14 @@ public class RoleController : MonoBehaviour
 		}
 		else
 		{
-			OnSpellSprintEnd();
+			SpellSprintEnd();
 			playerAnimaController.Idle(true);
 		}
 	}
 
-	void OnSpellSprintEnd()
+	public void SpellSprintEnd()
 	{
+		RoleChangeState(RoleState.Idle);
 		PlayerHealth.PlayerHealthInstance.ModifyDamageLabel(true);
 	}
 
@@ -243,9 +278,21 @@ public class RoleController : MonoBehaviour
 			return;
 		}
 		curPower -= bounceCost;
-		bounceMoveTag = false;
 		UpdatePowerUI();
+		RoleChangeState(RoleState.CastSpellUncontrollable);
 		playerAnimaController.Parry();
+	}
+
+	public void SpellBounceEffect()
+	{
+		RoleController.Instance.bounceLabel = true;
+		RoleChangeState(RoleState.CastSpellMoveable);
+	}
+
+	public void SpellBounceEnd()
+	{
+		RoleController.Instance.bounceLabel = false;
+		RoleChangeState(RoleState.Idle);
 	}
 
 	public void HandleSpellBouncing()
@@ -274,6 +321,7 @@ public class RoleController : MonoBehaviour
 		playerAnimaController.ApplyTimeDilation(0);
 		curPower = Math.Min(curPower + bounceCost, maxPowerAmount);
 		UpdatePowerUI();
+		PlayerHealth.PlayerHealthInstance.SetInvincibleTime(bounceRewardTime);
 	}
 
 	public void PlayEffect(string effectName, Transform tempTransform)
@@ -294,8 +342,14 @@ public class RoleController : MonoBehaviour
 		var tempState = GetState();
 		if(tempState == AnimState.Parry)
 		{
-			SpellController.spellController.OnSpellBounceEnd();
+			SpellBounceEnd();
 		}
+		RoleChangeState(RoleState.CastSpellUncontrollable);
 		playerAnimaController.Hit();
+	}
+
+	public void OnSpellHitEnd()
+	{
+		RoleChangeState(RoleState.Idle);
 	}
 }

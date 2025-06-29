@@ -103,6 +103,11 @@ public class PlayerHealth : MonoBehaviour
     {
         InvincibleTime += time;
     }
+
+	public void SetInvincibleTime(float time)
+	{
+		InvincibleTime = time;
+	}
     
     private Image[] hearts;
 
