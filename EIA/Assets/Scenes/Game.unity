@@ -6280,8 +6280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timemeSlowParam:
-  - {fileID: 11400000, guid: a53b2a49fd865be41a6542f4f9f24839, type: 2}
-  - {fileID: 11400000, guid: bd8faad73cd834d48b3f6d460f095809, type: 2}
+  - slowMotionScale: 0.1
+    duration: 0.5
+  - slowMotionScale: 0.1
+    duration: 0.3
 --- !u!95 &1477034345
 Animator:
   serializedVersion: 5

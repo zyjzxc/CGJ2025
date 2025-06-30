@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "TimeDilationSettings", menuName = "Time Dilation Settings")]
-public class TimeSlowParam : ScriptableObject
-{
-    public float slowMotionScale;
-    public float duration;
-}
+
+
 public class PlayerAnimController : MonoBehaviour
 {
+    [System.Serializable]
+    public class TimeSlowParam
+    {
+        public float slowMotionScale = 0.5f;
+        public float duration = 2.0f;
+    
+        public TimeSlowParam(float scale, float duration)
+        {
+            this.slowMotionScale = scale;
+            this.duration = duration;
+        }
+    }
     
     private Animator _animator;
     private Coroutine _slowMotionCoroutine;
-    public TimeSlowParam[] timemeSlowParam;
+    [SerializeField] public TimeSlowParam[] timemeSlowParam;
     // Start is called before the first frame update
     void Start()
     {
@@ -109,7 +117,7 @@ public class PlayerAnimController : MonoBehaviour
         // 调整FixedDeltaTime以保持物理稳定性
         //Time.fixedDeltaTime = originalFixedDeltaTime * slowMotionScale;
         
-        // 等待指定的持续时间
+        // 等待指定的持续时间#
         yield return new WaitForSecondsRealtime(duration); // 使用Realtime避免受Time.timeScale影响
         
         // 恢复正常时间
